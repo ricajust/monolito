@@ -24,6 +24,10 @@ public abstract class Usuario {
     @Column(name = "nome")
     private String nome;
 
+    @NotBlank
+    @Column(name = "cpf", unique = true)
+    private String cpf;
+
     @Past
     @Column(name = "data_nascimento")
     private LocalDate dataNascimento;
