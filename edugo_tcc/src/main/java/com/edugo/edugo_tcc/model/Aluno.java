@@ -1,5 +1,23 @@
 package com.edugo.edugo_tcc.model;
 
-public class Aluno extends Usuario{
-    
+import java.util.List;
+
+import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Entity
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+public class Aluno extends Usuario {
+    //propriedades
+    @OneToMany(mappedBy = "aluno", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<Matricula> matricula;
+
+    //metodos
+    public Matricula realizaMatricula(Disciplina disciplina){
+        return new Matricula();
+    }
 }
