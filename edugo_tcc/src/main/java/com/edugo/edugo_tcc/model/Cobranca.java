@@ -21,7 +21,7 @@ public class Cobranca {
     public void confirmarPagamentovoid() {
     
     }
-    public void gerarBoleto() {
-        
+    public String gerarBoleto() {
+        return "boleto";
     }
 }
