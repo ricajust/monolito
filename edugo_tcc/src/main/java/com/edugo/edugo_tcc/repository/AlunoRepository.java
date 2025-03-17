@@ -6,6 +6,6 @@ import org.springframework.stereotype.Repository;
 import com.edugo.edugo_tcc.model.Aluno;
 
 @Repository
-public interface AlunoRepositoy extends JpaRepository<Aluno, UUID>{
+public interface AlunoRepository extends JpaRepository<Aluno, UUID>{
 
 }
