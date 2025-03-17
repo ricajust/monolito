@@ -10,6 +10,9 @@ import com.edugo.edugo_tcc.model.Matricula;
 import com.edugo.edugo_tcc.model.Professor;
 import com.edugo.edugo_tcc.repository.AlunoRepository;
 import com.edugo.edugo_tcc.service.AlunoService;
+import com.edugo.edugo_tcc.util.ConversorGenericoDTO;
+import com.edugo.edugo_tcc.util.ConversorGenericoEntidade;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.List;
@@ -20,10 +23,15 @@ import java.util.stream.Collectors;
 public class AlunoServiceImpl implements AlunoService {
 
     private final AlunoRepository alunoRepository;
+    private final ConversorGenericoDTO conversorGenericoDTO;
+    private final ConversorGenericoEntidade conversorGenericoEntidade;
+
 
     @Autowired
-    public AlunoServiceImpl(AlunoRepository alunoRepository) {
+    public AlunoServiceImpl(AlunoRepository alunoRepository, ConversorGenericoDTO conversorGenericoDTO, ConversorGenericoEntidade conversorGenericoEntidade) {
         this.alunoRepository = alunoRepository;
+        this.conversorGenericoDTO = conversorGenericoDTO;
+        this.conversorGenericoEntidade = conversorGenericoEntidade;
     }
 
     /**
@@ -35,9 +43,9 @@ public class AlunoServiceImpl implements AlunoService {
     @Override
     public AlunoDTO criarAluno(AlunoDTO alunoDTO) {
         try {
-            Aluno aluno = converterParaEntidade(alunoDTO);
+            Aluno aluno = conversorGenericoEntidade.converterParaEntidade(alunoDTO, Aluno.class);
             Aluno alunoSalvo = alunoRepository.save(aluno);
-            return converterParaDTO(alunoSalvo);
+            return conversorGenericoDTO.converterParaDTO(alunoSalvo, AlunoDTO.class);
         } catch (Exception error) {
             throw new RuntimeException("Erro ao criar aluno: " + error.getMessage(), error);
         }
@@ -55,7 +63,7 @@ public class AlunoServiceImpl implements AlunoService {
             Aluno aluno = alunoRepository
                     .findById(id)
                     .orElseThrow(() -> new RuntimeException("Aluno não encontrado com o ID: " + id));
-            return converterParaDTO(aluno);
+            return conversorGenericoDTO.converterParaDTO(aluno, AlunoDTO.class);
         } catch (Exception error) {
             throw new RuntimeException("Erro ao buscar aluno por ID: " + error.getMessage(), error);
         }
@@ -69,38 +77,45 @@ public class AlunoServiceImpl implements AlunoService {
     @Override
     public List<AlunoDTO> buscarTodosAlunos() {
         try {
-            return alunoRepository
-                    .findAll()
+            List<Aluno> alunos = alunoRepository.findAll();
+            return alunos
                     .stream()
-                    .map(this::converterParaDTO)
+                    .map(aluno -> conversorGenericoDTO.converterParaDTO(aluno, AlunoDTO.class))
                     .collect(Collectors.toList());
         } catch (Exception error) {
             throw new RuntimeException("Erro ao buscar todos os alunos: " + error.getMessage(), error);
         }
     }
 
+    /**
+     * Método responsável por atualizar um aluno
+     * 
+     * @param id
+     * @param alunoDTO
+     * @return AlunoDTO
+     */
     @Override
     public AlunoDTO atualizarAluno(UUID id, AlunoDTO alunoDTO) {
         try {
             Aluno alunoExistente = alunoRepository
                     .findById(id)
                     .orElseThrow(() -> new RuntimeException("Aluno não encontrado com o ID: " + id));
-            alunoExistente.setNome(alunoDTO.getNome());
-            alunoExistente.setEmail(alunoDTO.getEmail());
-            alunoExistente.setTelefone(alunoDTO.getTelefone());
-            alunoExistente.setEndereco(alunoDTO.getEndereco());
-            alunoExistente.setBairro(alunoDTO.getBairro());
-            alunoExistente.setCidade(alunoDTO.getCidade());
-            alunoExistente.setUf(alunoDTO.getUf());
-            alunoExistente.setCep(alunoDTO.getCep());
-            Aluno alunoAtualizado = alunoRepository.save(alunoExistente);
-            return converterParaDTO(alunoAtualizado);
+            Aluno alunoAtualizado = conversorGenericoEntidade.converterParaEntidade(alunoDTO, Aluno.class);
+            alunoAtualizado.setId(alunoExistente.getId()); // Garante que o ID seja mantido
+            alunoAtualizado = alunoRepository.save(alunoAtualizado);
+            return conversorGenericoDTO.converterParaDTO(alunoAtualizado, AlunoDTO.class);
         } catch (Exception error) {
             throw new RuntimeException("Erro ao atualizar aluno: " + error.getMessage(), error);
 
         }
     }
 
+    /**
+     * Método responsável por excluir um aluno
+     * 
+     * @param id
+     * @return AlunoDTO
+     */
     @Override
     public AlunoDTO excluirAluno(UUID id) {
         try {
@@ -108,7 +123,7 @@ public class AlunoServiceImpl implements AlunoService {
                     .findById(id)
                     .orElseThrow(() -> new RuntimeException("Aluno não encontrado com o ID: " + id));
             alunoRepository.deleteById(id);
-            return converterParaDTO(aluno);
+            return conversorGenericoDTO.converterParaDTO(aluno, AlunoDTO.class);
         } catch (Exception error) {
             throw new RuntimeException("Erro ao excluir o aluno com ID " + id + ": " + error.getMessage(), error);
         }
