@@ -120,7 +120,7 @@ public class AlunoServiceImpl implements AlunoService {
             Aluno aluno = alunoRepository
                     .findById(id)
                     .orElseThrow(() -> new RuntimeException("Aluno não encontrado com o ID: " + id));
-            alunoRepository.deleteById(id);
+            alunoRepository.delete(aluno);
             return conversorGenericoDTO.converterParaDTO(aluno, AlunoDTO.class);
         } catch(Exception error) {
             throw new RuntimeException("Erro ao excluir o aluno com ID " + id + ": " + error.getMessage(), error);
