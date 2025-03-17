@@ -40,6 +40,17 @@ public class MatriculaServiceImpl implements MatriculaService {
                 this.conversorGenericoDTO = conversorGenericoDTO;
                 this.conversorGenericoEntidade = conversorGenericoEntidade;
             }
+    
+    /**
+     * Método reponsável por verificar se já existe uma matrícula ativa para o aluno na disciplina fornecida
+     * @param aluno
+     * @param disciplina
+     * @return boolean
+     */
+    @Override
+    public boolean verificaMatriculaAtivaParaAlunoEDisciplina(Aluno aluno, Disciplina disciplina) {
+        return matriculaRepository.existsByAlunoAndDisciplinaAndStatus(aluno, disciplina, "ATIVO");
+    }
 
     /**
      * Método responsável por criar uma matrícula
@@ -58,15 +69,23 @@ public class MatriculaServiceImpl implements MatriculaService {
             }
 
             // Busca as entidades de Aluno e Disciplina pelos IDs
-            Aluno aluno = alunoRepository.findById(matriculaDTO.getAluno().getId())
-                    .orElseThrow(() -> new RuntimeException("Aluno não encontrado com ID: " + matriculaDTO.getAluno().getId()));
-            Disciplina disciplina = disciplinaRepository.findById(matriculaDTO.getDisciplina().getId())
-                    .orElseThrow(() -> new RuntimeException("Disciplina não encontrada com ID: " + matriculaDTO.getDisciplina().getId()));
+            Aluno aluno = alunoRepository
+                .findById(matriculaDTO.getAluno().getId())
+                .orElseThrow(() -> new RuntimeException("Aluno não encontrado com ID: " + matriculaDTO.getAluno().getId()));
+            Disciplina disciplina = disciplinaRepository
+                .findById(matriculaDTO.getDisciplina().getId())
+                .orElseThrow(() -> new RuntimeException("Disciplina não encontrada com ID: " + matriculaDTO.getDisciplina().getId()));
 
+            // Verificar se já existe uma matrícula ativa para este aluno nesta disciplina
+            if (verificaMatriculaAtivaParaAlunoEDisciplina(aluno, disciplina)) {
+                throw new RuntimeException("Aluno já matriculado nesta disciplina.");
+            }
+            
             matricula.setAluno(aluno);
             matricula.setDisciplina(disciplina);
 
             Matricula matriculaSalva = matriculaRepository.save(matricula);
+
             return conversorGenericoDTO.converterParaDTO(matriculaSalva, MatriculaDTO.class);
         } catch (Exception error) {
             throw new RuntimeException("Erro ao criar matrícula: " + error.getMessage(), error);

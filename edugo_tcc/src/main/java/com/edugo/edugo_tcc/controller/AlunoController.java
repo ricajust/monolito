@@ -2,6 +2,7 @@ package com.edugo.edugo_tcc.controller;
 
 import com.edugo.edugo_tcc.dto.AlunoDTO;
 import com.edugo.edugo_tcc.dto.AlunoResponseDTO;
+import com.edugo.edugo_tcc.dto.ProfessorResponseDTO;
 import com.edugo.edugo_tcc.service.AlunoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -32,19 +33,8 @@ public class AlunoController {
     @PostMapping
     public ResponseEntity<AlunoResponseDTO> criarAluno(@RequestBody AlunoDTO alunoDTO) {
         AlunoDTO alunoCriado = alunoService.criarAluno(alunoDTO);
-        AlunoResponseDTO alunoResponseDTO = new AlunoResponseDTO();
-        // Mapeie os atributos de AlunoDTO para AlunoResponseDTO
-        alunoResponseDTO.setId(alunoCriado.getId());
-        alunoResponseDTO.setNome(alunoCriado.getNome());
-        alunoResponseDTO.setCpf(alunoCriado.getCpf());
-        alunoResponseDTO.setDataNascimento(alunoCriado.getDataNascimento());
-        alunoResponseDTO.setEmail(alunoCriado.getEmail());
-        alunoResponseDTO.setTelefone(alunoCriado.getTelefone());
-        alunoResponseDTO.setEndereco(alunoCriado.getEndereco());
-        alunoResponseDTO.setBairro(alunoCriado.getBairro());
-        alunoResponseDTO.setCidade(alunoCriado.getCidade());
-        alunoResponseDTO.setUf(alunoCriado.getUf());
-        alunoResponseDTO.setCep(alunoCriado.getCep());
+        AlunoResponseDTO alunoResponseDTO = converterParaResponseDTO(alunoCriado);
+
         return ResponseEntity.status(HttpStatus.CREATED).body(alunoResponseDTO);
     }
 
@@ -58,19 +48,8 @@ public class AlunoController {
     public ResponseEntity<AlunoResponseDTO> buscarAlunoPorId(@PathVariable UUID id) {
         AlunoDTO alunoDTO = alunoService.buscarAlunoPorId(id);
         if (alunoDTO != null) {
-            AlunoResponseDTO alunoResponseDTO = new AlunoResponseDTO();
-            // Mapeie os atributos de AlunoDTO para AlunoResponseDTO
-            alunoResponseDTO.setId(alunoDTO.getId());
-            alunoResponseDTO.setNome(alunoDTO.getNome());
-            alunoResponseDTO.setCpf(alunoDTO.getCpf());
-            alunoResponseDTO.setDataNascimento(alunoDTO.getDataNascimento());
-            alunoResponseDTO.setEmail(alunoDTO.getEmail());
-            alunoResponseDTO.setTelefone(alunoDTO.getTelefone());
-            alunoResponseDTO.setEndereco(alunoDTO.getEndereco());
-            alunoResponseDTO.setBairro(alunoDTO.getBairro());
-            alunoResponseDTO.setCidade(alunoDTO.getCidade());
-            alunoResponseDTO.setUf(alunoDTO.getUf());
-            alunoResponseDTO.setCep(alunoDTO.getCep());
+            AlunoResponseDTO alunoResponseDTO = converterParaResponseDTO(alunoDTO);
+
             return ResponseEntity.ok(alunoResponseDTO);
         } else {
             return ResponseEntity.notFound().build();
@@ -87,19 +66,8 @@ public class AlunoController {
         List<AlunoDTO> alunosDTO = alunoService.buscarTodosAlunos();
         List<AlunoResponseDTO> alunoResponseDTOS = alunosDTO.stream()
             .map(alunoDTO -> {
-                AlunoResponseDTO alunoResponseDTO = new AlunoResponseDTO();
-                 // Mapeie os atributos de AlunoDTO para AlunoResponseDTO
-                alunoResponseDTO.setId(alunoDTO.getId());
-                alunoResponseDTO.setNome(alunoDTO.getNome());
-                alunoResponseDTO.setCpf(alunoDTO.getCpf());
-                alunoResponseDTO.setDataNascimento(alunoDTO.getDataNascimento());
-                alunoResponseDTO.setEmail(alunoDTO.getEmail());
-                alunoResponseDTO.setTelefone(alunoDTO.getTelefone());
-                alunoResponseDTO.setEndereco(alunoDTO.getEndereco());
-                alunoResponseDTO.setBairro(alunoDTO.getBairro());
-                alunoResponseDTO.setCidade(alunoDTO.getCidade());
-                alunoResponseDTO.setUf(alunoDTO.getUf());
-                alunoResponseDTO.setCep(alunoDTO.getCep());
+                AlunoResponseDTO alunoResponseDTO = converterParaResponseDTO(alunoDTO);
+
                 return alunoResponseDTO;
             })
             .collect(Collectors.toList());
@@ -117,19 +85,8 @@ public class AlunoController {
     public ResponseEntity<AlunoResponseDTO> atualizarAluno(@PathVariable UUID id, @RequestBody AlunoDTO alunoDTO) {
         AlunoDTO alunoAtualizado = alunoService.atualizarAluno(id, alunoDTO);
         if (alunoAtualizado != null) {
-            AlunoResponseDTO alunoResponseDTO = new AlunoResponseDTO();
-             // Mapeie os atributos de AlunoDTO para AlunoResponseDTO
-            alunoResponseDTO.setId(alunoAtualizado.getId());
-            alunoResponseDTO.setNome(alunoAtualizado.getNome());
-            alunoResponseDTO.setCpf(alunoAtualizado.getCpf());
-            alunoResponseDTO.setDataNascimento(alunoAtualizado.getDataNascimento());
-            alunoResponseDTO.setEmail(alunoAtualizado.getEmail());
-            alunoResponseDTO.setTelefone(alunoAtualizado.getTelefone());
-            alunoResponseDTO.setEndereco(alunoAtualizado.getEndereco());
-            alunoResponseDTO.setBairro(alunoAtualizado.getBairro());
-            alunoResponseDTO.setCidade(alunoAtualizado.getCidade());
-            alunoResponseDTO.setUf(alunoAtualizado.getUf());
-            alunoResponseDTO.setCep(alunoAtualizado.getCep());
+            AlunoResponseDTO alunoResponseDTO = converterParaResponseDTO(alunoAtualizado);
+
             return ResponseEntity.ok(alunoResponseDTO);
         } else {
             return ResponseEntity.notFound().build();
@@ -140,11 +97,39 @@ public class AlunoController {
      * Método responsável por excluir um aluno
      * 
      * @param id
-     * @return ResponseEntity<Void>
+     * @return AlunoResponseDTO
      */
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> excluirAluno(@PathVariable UUID id) {
-        alunoService.excluirAluno(id);
-        return ResponseEntity.noContent().build();
+    public ResponseEntity<AlunoResponseDTO> excluirAluno(@PathVariable UUID id) {
+        AlunoDTO alunoExcluidoDTO = alunoService.excluirAluno(id);
+        if (alunoExcluidoDTO != null) {
+            AlunoResponseDTO alunoResponseDTO = converterParaResponseDTO(alunoExcluidoDTO);
+            return ResponseEntity.ok(alunoResponseDTO);
+        } else {
+            return ResponseEntity.notFound().build();
+        }       
+    }
+
+    //Métodos da Classe
+    /**
+     * Método responsável por converter um AlunoDTO para um AlunoResponseDTO
+     * 
+     * @param dto
+     * @return AlunoResponseDTO
+     */
+    private AlunoResponseDTO converterParaResponseDTO(AlunoDTO dto) {
+        AlunoResponseDTO responseDTO = new AlunoResponseDTO();
+        responseDTO.setId(dto.getId());
+        responseDTO.setNome(dto.getNome());
+        responseDTO.setCpf(dto.getCpf());
+        responseDTO.setDataNascimento(dto.getDataNascimento());
+        responseDTO.setEmail(dto.getEmail());
+        responseDTO.setTelefone(dto.getTelefone());
+        responseDTO.setEndereco(dto.getEndereco());
+        responseDTO.setBairro(dto.getBairro());
+        responseDTO.setCidade(dto.getCidade());
+        responseDTO.setUf(dto.getUf());
+        responseDTO.setCep(dto.getCep());
+        return responseDTO;
     }
 }
