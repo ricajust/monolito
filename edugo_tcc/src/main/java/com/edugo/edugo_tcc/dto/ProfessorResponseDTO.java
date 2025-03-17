@@ -1,12 +1,12 @@
 package com.edugo.edugo_tcc.dto;
 
-import java.util.List;
-import java.util.UUID;
 import java.time.LocalDate;
+import java.util.UUID;
+
 import lombok.Data;
 
 @Data
-public class AlunoResponseDTO {
+public class ProfessorResponseDTO {
     private UUID id;
     private String nome;
     private String cpf;
@@ -18,5 +18,6 @@ public class AlunoResponseDTO {
     private String cidade;
     private String uf;
     private String cep;
-    private List<MatriculaDTO> matricula;
+    private String formacao;
+    private String especialidade;
 }
