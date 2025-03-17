@@ -1,18 +1,11 @@
 package com.edugo.edugo_tcc.service.impl;
 
 import com.edugo.edugo_tcc.dto.AlunoDTO;
-import com.edugo.edugo_tcc.dto.DisciplinaDTO;
-import com.edugo.edugo_tcc.dto.MatriculaDTO;
-import com.edugo.edugo_tcc.dto.ProfessorDTO;
 import com.edugo.edugo_tcc.model.Aluno;
-import com.edugo.edugo_tcc.model.Disciplina;
-import com.edugo.edugo_tcc.model.Matricula;
-import com.edugo.edugo_tcc.model.Professor;
 import com.edugo.edugo_tcc.repository.AlunoRepository;
 import com.edugo.edugo_tcc.service.AlunoService;
 import com.edugo.edugo_tcc.util.ConversorGenericoDTO;
 import com.edugo.edugo_tcc.util.ConversorGenericoEntidade;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.List;
@@ -28,11 +21,15 @@ public class AlunoServiceImpl implements AlunoService {
 
 
     @Autowired
-    public AlunoServiceImpl(AlunoRepository alunoRepository, ConversorGenericoDTO conversorGenericoDTO, ConversorGenericoEntidade conversorGenericoEntidade) {
-        this.alunoRepository = alunoRepository;
-        this.conversorGenericoDTO = conversorGenericoDTO;
-        this.conversorGenericoEntidade = conversorGenericoEntidade;
-    }
+    public AlunoServiceImpl(
+        AlunoRepository alunoRepository, 
+        ConversorGenericoDTO conversorGenericoDTO, 
+        ConversorGenericoEntidade conversorGenericoEntidade) 
+        {
+            this.alunoRepository = alunoRepository;
+            this.conversorGenericoDTO = conversorGenericoDTO;
+            this.conversorGenericoEntidade = conversorGenericoEntidade;
+        }
 
     /**
      * Método responsável por criar um aluno
@@ -47,7 +44,7 @@ public class AlunoServiceImpl implements AlunoService {
             System.out.println("Entidade Aluno após conversão: " + aluno.toString()); // Adicionado log
             Aluno alunoSalvo = alunoRepository.save(aluno);
             return conversorGenericoDTO.converterParaDTO(alunoSalvo, AlunoDTO.class);
-        } catch (Exception error) {
+        } catch(Exception error) {
             throw new RuntimeException("Erro ao criar aluno: " + error.getMessage(), error);
         }
     }
@@ -65,7 +62,7 @@ public class AlunoServiceImpl implements AlunoService {
                     .findById(id)
                     .orElseThrow(() -> new RuntimeException("Aluno não encontrado com o ID: " + id));
             return conversorGenericoDTO.converterParaDTO(aluno, AlunoDTO.class);
-        } catch (Exception error) {
+        } catch(Exception error) {
             throw new RuntimeException("Erro ao buscar aluno por ID: " + error.getMessage(), error);
         }
     }
@@ -83,7 +80,7 @@ public class AlunoServiceImpl implements AlunoService {
                     .stream()
                     .map(aluno -> conversorGenericoDTO.converterParaDTO(aluno, AlunoDTO.class))
                     .collect(Collectors.toList());
-        } catch (Exception error) {
+        } catch(Exception error) {
             throw new RuntimeException("Erro ao buscar todos os alunos: " + error.getMessage(), error);
         }
     }
@@ -105,7 +102,7 @@ public class AlunoServiceImpl implements AlunoService {
             alunoAtualizado.setId(alunoExistente.getId()); // Garante que o ID seja mantido
             alunoAtualizado = alunoRepository.save(alunoAtualizado);
             return conversorGenericoDTO.converterParaDTO(alunoAtualizado, AlunoDTO.class);
-        } catch (Exception error) {
+        } catch(Exception error) {
             throw new RuntimeException("Erro ao atualizar aluno: " + error.getMessage(), error);
 
         }
@@ -123,9 +120,9 @@ public class AlunoServiceImpl implements AlunoService {
             Aluno aluno = alunoRepository
                     .findById(id)
                     .orElseThrow(() -> new RuntimeException("Aluno não encontrado com o ID: " + id));
-            alunoRepository.deleteById(id);
+            alunoRepository.delete(aluno);
             return conversorGenericoDTO.converterParaDTO(aluno, AlunoDTO.class);
-        } catch (Exception error) {
+        } catch(Exception error) {
             throw new RuntimeException("Erro ao excluir o aluno com ID " + id + ": " + error.getMessage(), error);
         }
     }
