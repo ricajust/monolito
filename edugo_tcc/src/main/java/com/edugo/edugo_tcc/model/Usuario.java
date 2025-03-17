@@ -61,7 +61,7 @@ public abstract class Usuario {
     private String cep;
 
     @NotBlank
-    @Size(min = 8)
+    @Size(min = 3)
     @Column(name = "senha")
     private String senha;
 }
