@@ -1,6 +1,7 @@
 package com.edugo.edugo_tcc.controller;
 
 import com.edugo.edugo_tcc.dto.CobrancaDTO;
+import com.edugo.edugo_tcc.dto.CobrancaResponseDTO; // Importe CobrancaResponseDTO
 import com.edugo.edugo_tcc.service.CobrancaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -28,19 +29,19 @@ public class CobrancaController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<CobrancaDTO> buscarCobrancaPorId(@PathVariable UUID id) {
-        CobrancaDTO cobrancaDTO = cobrancaService.buscarCobrancaPorId(id);
-        if (cobrancaDTO != null) {
-            return ResponseEntity.ok(cobrancaDTO);
+    public ResponseEntity<CobrancaResponseDTO> buscarCobrancaPorId(@PathVariable UUID id) { // Alterado para CobrancaResponseDTO
+        CobrancaResponseDTO cobrancaResponseDTO = cobrancaService.buscarCobrancaPorId(id);
+        if (cobrancaResponseDTO != null) {
+            return ResponseEntity.ok(cobrancaResponseDTO);
         } else {
             return ResponseEntity.notFound().build();
         }
     }
 
     @GetMapping
-    public ResponseEntity<List<CobrancaDTO>> buscarTodasCobrancas() {
-        List<CobrancaDTO> cobrancasDTO = cobrancaService.buscarTodasCobrancas();
-        return ResponseEntity.ok(cobrancasDTO);
+    public ResponseEntity<List<CobrancaResponseDTO>> buscarTodasCobrancas() { // Alterado para List<CobrancaResponseDTO>
+        List<CobrancaResponseDTO> cobrancasResponseDTO = cobrancaService.buscarTodasCobrancas();
+        return ResponseEntity.ok(cobrancasResponseDTO);
     }
 
     @PutMapping("/{id}")
