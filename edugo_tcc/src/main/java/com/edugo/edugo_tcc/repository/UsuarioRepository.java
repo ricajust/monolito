@@ -9,4 +9,5 @@ import com.edugo.edugo_tcc.model.Usuario;
 @Repository
 public interface UsuarioRepository extends JpaRepository<Usuario, UUID>{
     Optional<Usuario> findByCpf(String cpf);
+    Optional<Usuario> findByEmail(String email);
 }
