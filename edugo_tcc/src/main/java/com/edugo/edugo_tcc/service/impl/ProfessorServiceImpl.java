@@ -40,7 +40,7 @@ public class ProfessorServiceImpl implements ProfessorService {
     public ProfessorDTO criarProfessor(ProfessorDTO professorDTO) {
         try {
             Professor professor = conversorGenericoEntidade.converterParaEntidade(professorDTO, Professor.class);
-            System.out.println("Entidade Professor após conversão: " + professor.toString()); // Adicionado log
+            professor.setCpf(professor.getCpf().replaceAll("[^0-9]", ""));//Remove os caracteres de "-" e "."
             Professor professorSalvo = professorRepository.save(professor);
             return conversorGenericoDTO.converterParaDTO(professorSalvo, ProfessorDTO.class);
         } catch(Exception error) {
@@ -97,9 +97,19 @@ public class ProfessorServiceImpl implements ProfessorService {
             Professor professorExistente = professorRepository
                 .findById(id)
                 .orElseThrow(() -> new RuntimeException("Professor não encontrado com o ID: " + id));
-            Professor professor = conversorGenericoEntidade.converterParaEntidade(professorDTO, Professor.class);
-            professor.setId(professorExistente.getId());
-            Professor professorAtualizado = professorRepository.save(professor);
+            Professor professorAtualizado = conversorGenericoEntidade.converterParaEntidade(professorDTO, Professor.class);
+            professorAtualizado.setId(professorExistente.getId());
+            professorAtualizado.setCpf(professorExistente.getCpf().replaceAll("[^0-9]", ""));//Remove os caracteres de "-" e "."
+                        
+            // Atualizar a senha apenas se um novo valor for fornecido
+            if(professorDTO.getSenha() != null && !professorDTO.getSenha().isEmpty()) {
+                professorAtualizado.setSenha(professorDTO.getSenha());
+            } else {
+                professorAtualizado.setSenha(professorExistente.getSenha()); // Manter a senha existente
+            }
+
+            professorAtualizado = professorRepository.save(professorAtualizado);
+
             return conversorGenericoDTO.converterParaDTO(professorAtualizado, ProfessorDTO.class);
         } catch(Exception error) {
             throw new RuntimeException("Erro ao atualizar professor: " + error.getMessage(), error);

@@ -2,6 +2,9 @@ package com.edugo.edugo_tcc.model;
 
 import java.time.LocalDate;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
@@ -20,6 +23,8 @@ public class Matricula {
 
     @ManyToOne
     @JoinColumn(name = "aluno_id", nullable = false)
+    @JsonIgnore
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private Aluno aluno;
 
     @ManyToOne

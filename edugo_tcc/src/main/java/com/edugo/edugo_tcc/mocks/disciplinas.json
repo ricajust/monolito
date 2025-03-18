@@ -1,0 +1,246 @@
+//DISCIPLINAS
+[
+  {
+      "nome": "Algoritmos e Lógica de Programação",
+      "descricao": "Fundamentos da construção de algoritmos e da lógica de programação.",
+      "nivel": "Algoritmos",
+      "valor": 90.00,
+      "professor": {
+          "id": "9e0d91bc-9553-4757-a5a3-63da54f6757d"
+      }
+  },
+  {
+      "nome": "Estruturas de Dados",
+      "descricao": "Estudo e implementação das principais estruturas de dados.",
+      "nivel": "Algoritmos",
+      "valor": 95.00,
+      "professor": {
+          "id": "9e0d91bc-9553-4757-a5a3-63da54f6757d"
+      }
+  },
+  {
+      "nome": "Desenvolvimento Web com Spring Boot",
+      "descricao": "Criação de aplicações web robustas utilizando o framework Spring Boot.",
+      "nivel": "Desenvolvimento Web",
+      "valor": 110.00,
+      "professor": {
+          "id": "0896700f-d56f-45f5-9548-5d8c0058cd17"
+      }
+  },
+  {
+      "nome": "Desenvolvimento Web Avançado",
+      "descricao": "Tópicos avançados e melhores práticas em desenvolvimento web.",
+      "nivel": "Desenvolvimento Web",
+      "valor": 125.00,
+      "professor": {
+          "id": "0896700f-d56f-45f5-9548-5d8c0058cd17"
+      }
+  },
+  {
+      "nome": "Arquitetura de Banco de Dados",
+      "descricao": "Princípios e padrões de arquitetura para sistemas de banco de dados.",
+      "nivel": "Banco de Dados",
+      "valor": 100.00,
+      "professor": {
+          "id": "a6d82259-033f-48b3-b728-b42f0cd57d85"
+      }
+  },
+  {
+      "nome": "Otimização de Consultas SQL",
+      "descricao": "Técnicas para melhorar o desempenho de consultas em bancos de dados SQL.",
+      "nivel": "Banco de Dados",
+      "valor": 90.00,
+      "professor": {
+          "id": "a6d82259-033f-48b3-b728-b42f0cd57d85"
+      }
+  },
+  {
+      "nome": "Frontend com React",
+      "descricao": "Desenvolvimento de interfaces de usuário interativas com a biblioteca React.",
+      "nivel": "Desenvolvimento Web",
+      "valor": 120.00,
+      "professor": {
+          "id": "0896700f-d56f-45f5-9548-5d8c0058cd17"
+      }
+  },
+  {
+      "nome": "Modelagem de Banco de Dados Relacional",
+      "descricao": "Conceitos e práticas para a criação de modelos de dados eficientes.",
+      "nivel": "Banco de Dados",
+      "valor": 85.00,
+      "professor": {
+          "id": "a6d82259-033f-48b3-b728-b42f0cd57d85"
+      }
+  },
+  {
+      "nome": "Administração de Banco de Dados PostgreSQL",
+      "descricao": "Gestão e otimização de bancos de dados utilizando PostgreSQL.",
+      "nivel": "Banco de Dados",
+      "valor": 95.00,
+      "professor": {
+          "id": "a6d82259-033f-48b3-b728-b42f0cd57d85"
+      }
+  },
+  {
+      "nome": "Fundamentos da Inteligência Artificial",
+      "descricao": "Introdução aos conceitos e algoritmos básicos da Inteligência Artificial.",
+      "nivel": "Inteligência Artificial",
+      "valor": 100.00,
+      "professor": {
+          "id": "cc99f012-bd53-4c03-8cb4-45d3a41320b0"
+      }
+  },
+  {
+      "nome": "Aprendizado de Máquina",
+      "descricao": "Estudo das técnicas de aprendizado de máquina supervisionado e não supervisionado.",
+      "nivel": "Inteligência Artificial",
+      "valor": 115.00,
+      "professor": {
+          "id": "cc99f012-bd53-4c03-8cb4-45d3a41320b0"
+      }
+  },
+  {
+      "nome": "Redes de Computadores e Protocolos",
+      "descricao": "Arquitetura, protocolos e funcionamento das redes de computadores.",
+      "nivel": "Redes de Computadores",
+      "valor": 90.00,
+      "professor": {
+          "id": "9991f84b-d015-4f22-8740-44d086ca3796"
+      }
+  },
+  {
+      "nome": "Segurança em Redes",
+      "descricao": "Princípios e técnicas para garantir a segurança em redes de computadores.",
+      "nivel": "Redes de Computadores",
+      "valor": 105.00,
+      "professor": {
+          "id": "9991f84b-d015-4f22-8740-44d086ca3796"
+      }
+  },
+  {
+      "nome": "Tópicos em Segurança da Informação",
+      "descricao": "Estudo aprofundado de temas relevantes em segurança da informação.",
+      "nivel": "Segurança da Informação",
+      "valor": 125.00,
+      "professor": {
+          "id": "c079bbb5-803b-4b40-bd04-568020a7bfac"
+      }
+  },
+  {
+      "nome": "Arquitetura de Microsserviços",
+      "descricao": "Design e implementação de sistemas utilizando a arquitetura de microsserviços.",
+      "nivel": "Arquitetura de Software",
+      "valor": 130.00,
+      "professor": {
+          "id": "66270520-2a81-4a5a-b317-cb84c6daa9a1"
+      }
+  },
+  {
+      "nome": "Desenvolvimento Mobile com Flutter",
+      "descricao": "Criação de aplicativos móveis para Android e iOS utilizando o framework Flutter.",
+      "nivel": "Desenvolvimento Mobile",
+      "valor": 120.00,
+      "professor": {
+          "id": "4796b6e2-5b35-40e7-9cc2-356aebabb81f"
+      }
+  },
+  {
+      "nome": "Computação Gráfica Essencial",
+      "descricao": "Introdução aos conceitos e técnicas fundamentais da computação gráfica.",
+      "nivel": "Computação Gráfica",
+      "valor": 110.00,
+      "professor": {
+          "id": "fb652886-64f3-4ca0-b832-d4636d1caca2"
+      }
+  },
+  {
+      "nome": "Sistemas Embarcados",
+      "descricao": "Princípios e desenvolvimento de sistemas embarcados.",
+      "nivel": "Sistemas Embarcados",
+      "valor": 105.00,
+      "professor": {
+          "id": "b5a6bca9-12ec-4d91-8347-226e8cf6c148"
+      }
+  },
+  {
+      "nome": "Engenharia de Software: Princípios e Práticas",
+      "descricao": "Estudo dos princípios e práticas essenciais da engenharia de software.",
+      "nivel": "Engenharia de Software",
+      "valor": 115.00,
+      "professor": {
+          "id": "b961c2b2-6636-44dd-b014-a1626d8afc1a"
+      }
+  },
+  {
+      "nome": "Desenvolvimento de Jogos com Unity",
+      "descricao": "Introdução ao desenvolvimento de jogos utilizando a engine Unity.",
+      "nivel": "Desenvolvimento de Jogos",
+      "valor": 130.00,
+      "professor": {
+          "id": "2a6638a5-19e7-43de-bedd-a68b30e0af45"
+      }
+  },
+  {
+      "nome": "Computação em Nuvem com AWS",
+      "descricao": "Introdução e utilização dos serviços da plataforma AWS.",
+      "nivel": "Computação em Nuvem",
+      "valor": 120.00,
+      "professor": {
+          "id": "77b81348-2607-4b8c-9e4c-084d62bdf496"
+      }
+  },
+  {
+      "nome": "Desenvolvimento de Aplicações Web Modernas",
+      "descricao": "Criação de aplicações web utilizando tecnologias e frameworks atuais.",
+      "nivel": "Desenvolvimento de Aplicações",
+      "valor": 125.00,
+      "professor": {
+          "id": "13a6f252-103b-4282-b478-5d64f041cf47"
+      }
+  },
+  {
+      "nome": "Matemática para Computação",
+      "descricao": "Conceitos matemáticos fundamentais para a área de computação.",
+      "nivel": "Matemática",
+      "valor": 80.00,
+      "professor": {
+          "id": "cf496574-54a2-4aa7-ab6c-456eddd73369"
+      }
+  },
+  {
+      "nome": "Física para Informática",
+      "descricao": "Princípios de física relevantes para a área de informática.",
+      "nivel": "Física",
+      "valor": 85.00,
+      "professor": {
+          "id": "b0749f27-9758-4f03-9395-8dea5d73b539"
+      }
+  },
+  {
+      "nome": "Química para Tecnologia",
+      "descricao": "Conceitos de química aplicados à tecnologia.",
+      "nivel": "Química",
+      "valor": 90.00,
+      "professor": {
+          "id": "0baf685b-b818-4a5f-a960-a84af07884ab"
+      }
+  },
+  {
+      "nome": "História da Computação",
+      "descricao": "Evolução da computação desde suas origens até os dias atuais.",
+      "nivel": "História",
+      "valor": 70.00,
+      "professor": {
+          "id": "2d47cf96-3c27-4683-ac78-8193f77b86c0"
+      }
+  },
+  {
+      "nome": "Geografia e Tecnologia",
+      "descricao": "Aplicações da geografia na área de tecnologia.",
+      "nivel": "Geografia",
+      "valor": 75.00,
+      "professor": {
+          "id": "cba4a3db-c1ba-44f3-bd58-2b6c4df868c3"
+      }
+  }
+]
