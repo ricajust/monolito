@@ -1,14 +1,13 @@
 package com.edugo.edugo_tcc.dto;
 
+import lombok.Data;
 import java.time.LocalDate;
 import java.util.UUID;
 
-import lombok.Data;
-
 @Data
-public class CobrancaDTO {
+public class CobrancaResponseDTO {
     private UUID id;
-    private PagamentoDTO pagamento;
+    private UUID idPagamento; // Ou PagamentoInfoDTO se quiser mais detalhes do pagamento
     private LocalDate dataPagamento;
     private String metodoPagamento;
 }

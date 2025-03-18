@@ -1,5 +1,6 @@
 package com.edugo.edugo_tcc.service.impl;
 
+import com.edugo.edugo_tcc.dto.AlunoDTO;
 import com.edugo.edugo_tcc.dto.DisciplinaDTO;
 import com.edugo.edugo_tcc.dto.MatriculaDTO;
 import com.edugo.edugo_tcc.model.Aluno;
@@ -112,7 +113,17 @@ public class MatriculaServiceImpl implements MatriculaService {
     public List<MatriculaDTO> buscarMatriculasPorCpfAluno(String cpf) {
         List<Matricula> matriculas = matriculaRepository.findByAlunoCpf(cpf);
         return matriculas.stream()
-            .map(matricula -> conversorGenericoDTO.converterParaDTO(matricula, MatriculaDTO.class))
+            .map(matricula -> {
+                MatriculaDTO dto = new MatriculaDTO();
+                dto.setId(matricula.getId());
+                dto.setDataMatricula(matricula.getDataMatricula());
+                dto.setStatus(matricula.getStatus());
+                dto.setAluno(conversorGenericoDTO.converterParaDTO(matricula.getAluno(), AlunoDTO.class));
+                List<DisciplinaDTO> disciplinasDTO = new ArrayList<>();
+                disciplinasDTO.add(conversorGenericoDTO.converterParaDTO(matricula.getDisciplina(), DisciplinaDTO.class));
+                dto.setDisciplinas(disciplinasDTO);
+                return dto;
+            })
             .collect(Collectors.toList());
     }
 

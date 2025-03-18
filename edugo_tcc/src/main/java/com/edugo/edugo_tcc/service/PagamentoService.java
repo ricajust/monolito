@@ -1,13 +1,14 @@
 package com.edugo.edugo_tcc.service;
 
+import com.edugo.edugo_tcc.dto.PagamentoDTO;
+import com.edugo.edugo_tcc.dto.PagamentoResponseDTO;
 import java.util.List;
 import java.util.UUID;
-import com.edugo.edugo_tcc.dto.PagamentoDTO;
 
 public interface PagamentoService {
-    PagamentoDTO criarPagamento(PagamentoDTO pagamentoDTO);
-    PagamentoDTO buscarPagamentoPorId(UUID id);
-    List<PagamentoDTO> buscarTodosPagamentos();
+    PagamentoResponseDTO gerarPagamentoParaAluno(UUID alunoId);
+    PagamentoResponseDTO buscarPagamentoPorId(UUID id);
+    List<PagamentoResponseDTO> buscarTodosPagamentos();
     PagamentoDTO atualizarPagamento(UUID id, PagamentoDTO pagamentoDTO);
     PagamentoDTO excluirPagamento(UUID id);
 }
