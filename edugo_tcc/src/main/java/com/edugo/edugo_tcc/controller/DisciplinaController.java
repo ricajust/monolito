@@ -106,18 +106,18 @@ public class DisciplinaController {
      * @return DisciplinaResponseDTO
      */
     private DisciplinaResponseDTO converterParaDisciplinaResponseDTO(DisciplinaDTO dto) {
-        DisciplinaResponseDTO response = new DisciplinaResponseDTO();
-        response.setId(dto.getId());
-        response.setNome(dto.getNome());
-        response.setDescricao(dto.getDescricao());
-        response.setNivel(dto.getNivel());
-        response.setValor(dto.getValor());
+        DisciplinaResponseDTO responseDTO = new DisciplinaResponseDTO();
+        responseDTO.setId(dto.getId());
+        responseDTO.setNome(dto.getNome());
+        responseDTO.setDescricao(dto.getDescricao());
+        responseDTO.setNivel(dto.getNivel());
+        responseDTO.setValor(dto.getValor());
 
         if (dto.getProfessor() != null) {
             ProfessorInfoDTO professorInfo = new ProfessorInfoDTO();
             professorInfo.setId(dto.getProfessor().getId());
-            response.setProfessor(professorInfo);
+            responseDTO.setProfessor(professorInfo);
         }
-        return response;
+        return responseDTO;
     }
 }

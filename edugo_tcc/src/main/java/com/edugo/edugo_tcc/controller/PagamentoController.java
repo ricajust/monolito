@@ -1,6 +1,8 @@
 package com.edugo.edugo_tcc.controller;
 
+import com.edugo.edugo_tcc.dto.AlunoInfoDTO;
 import com.edugo.edugo_tcc.dto.PagamentoDTO;
+import com.edugo.edugo_tcc.dto.PagamentoResponseDTO;
 import com.edugo.edugo_tcc.service.PagamentoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -21,10 +23,21 @@ public class PagamentoController {
         this.pagamentoService = pagamentoService;
     }
 
-    @PostMapping
-    public ResponseEntity<PagamentoDTO> criarPagamento(@RequestBody PagamentoDTO pagamentoDTO) {
-        PagamentoDTO pagamentoCriado = pagamentoService.criarPagamento(pagamentoDTO);
-        return ResponseEntity.status(HttpStatus.CREATED).body(pagamentoCriado);
+    // @PostMapping
+    // public ResponseEntity<PagamentoDTO> criarPagamento(@RequestBody PagamentoDTO pagamentoDTO) {
+    //     PagamentoDTO pagamentoCriado = pagamentoService.criarPagamento(pagamentoDTO);
+    //     return ResponseEntity.status(HttpStatus.CREATED).body(pagamentoCriado);
+    // }
+
+    @PostMapping("/gerar/{alunoId}") // Novo endpoint para gerar pagamento por alunoId
+    public ResponseEntity<PagamentoResponseDTO> gerarPagamentoParaAluno(@PathVariable UUID alunoId) {
+        PagamentoDTO pagamentoGeradoDTO = pagamentoService.gerarPagamentoParaAluno(alunoId);
+        if (pagamentoGeradoDTO != null) {
+            PagamentoResponseDTO pagamentoResponseDTO = converterParaPagamentoResponseDTO(pagamentoGeradoDTO);
+            return ResponseEntity.status(HttpStatus.CREATED).body(pagamentoResponseDTO);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
     }
 
     @GetMapping("/{id}")
@@ -57,5 +70,28 @@ public class PagamentoController {
     public ResponseEntity<Void> excluirPagamento(@PathVariable UUID id) {
         pagamentoService.excluirPagamento(id);
         return ResponseEntity.noContent().build();
+    }
+
+    //Métodos da Classe
+    /**
+     * Método para converter PagamentoDTO para PagamentoResponseDTO
+     * 
+     * @param pagamentoDTO
+     * @return PagamentoResponseDTO
+     */
+    private PagamentoResponseDTO converterParaPagamentoResponseDTO(PagamentoDTO pagamentoDTO) {
+        PagamentoResponseDTO responseDTO = new PagamentoResponseDTO();
+        responseDTO.setId(pagamentoDTO.getId());
+        responseDTO.setValor(pagamentoDTO.getValor());
+        responseDTO.setDataVencimento(pagamentoDTO.getDataVencimento());
+        responseDTO.setStatus(pagamentoDTO.getStatus());
+
+        if (pagamentoDTO.getAluno() != null) {
+            AlunoInfoDTO alunoInfo = new AlunoInfoDTO();
+            alunoInfo.setId(pagamentoDTO.getAluno().getId());
+            alunoInfo.setNome(pagamentoDTO.getAluno().getNome());
+            responseDTO.setAluno(alunoInfo);
+        }
+        return responseDTO;
     }
 }

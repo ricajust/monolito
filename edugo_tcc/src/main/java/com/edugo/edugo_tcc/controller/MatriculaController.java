@@ -177,30 +177,30 @@ public class MatriculaController {
      * @return MatriculaResponseDTO
      */
     private MatriculaResponseDTO converterParaMatriculaResponseDTO(MatriculaDTO dto) {
-        MatriculaResponseDTO response = new MatriculaResponseDTO();
-    response.setId(dto.getId());
-    response.setDataMatricula(dto.getDataMatricula());
-    response.setStatus(dto.getStatus());
+        MatriculaResponseDTO responseDTO = new MatriculaResponseDTO();
+        responseDTO.setId(dto.getId());
+        responseDTO.setDataMatricula(dto.getDataMatricula());
+        responseDTO.setStatus(dto.getStatus());
 
-    if (dto.getAluno() != null) {
-        AlunoInfoDTO alunoInfo = new AlunoInfoDTO();
-        alunoInfo.setId(dto.getAluno().getId());
-        alunoInfo.setNome(dto.getAluno().getNome());
-        response.setAluno(alunoInfo);
-    }
-
-    // Pegamos a informação da disciplina da lista de disciplinas dentro do DTO e mostramos a informação
-    // da primeira disciplina da lista para cada objeto MatriculaResponseDTO
-    if (dto.getDisciplinas() != null && !dto.getDisciplinas().isEmpty()) {
-        DisciplinaDTO disciplinaDTO = dto.getDisciplinas().get(0); // Pega a primeira disciplina da lista
-        response.setDisciplinaId(disciplinaDTO.getId());
-        response.setDisciplinaNome(disciplinaDTO.getNome());
-        response.setDisciplinaValor(disciplinaDTO.getValor());
-        if (disciplinaDTO.getProfessor() != null) {
-            response.setProfessorNome(disciplinaDTO.getProfessor().getNome());
+        if (dto.getAluno() != null) {
+            AlunoInfoDTO alunoInfo = new AlunoInfoDTO();
+            alunoInfo.setId(dto.getAluno().getId());
+            alunoInfo.setNome(dto.getAluno().getNome());
+            responseDTO.setAluno(alunoInfo);
         }
-    }
 
-    return response;
+        // Pegamos a informação da disciplina da lista de disciplinas dentro do DTO e mostramos a informação
+        // da primeira disciplina da lista para cada objeto MatriculaResponseDTO
+        if (dto.getDisciplinas() != null && !dto.getDisciplinas().isEmpty()) {
+            DisciplinaDTO disciplinaDTO = dto.getDisciplinas().get(0); // Pega a primeira disciplina da lista
+            responseDTO.setDisciplinaId(disciplinaDTO.getId());
+            responseDTO.setDisciplinaNome(disciplinaDTO.getNome());
+            responseDTO.setDisciplinaValor(disciplinaDTO.getValor());
+            if (disciplinaDTO.getProfessor() != null) {
+                responseDTO.setProfessorNome(disciplinaDTO.getProfessor().getNome());
+            }
+        }
+    
+        return responseDTO;
     }
 }

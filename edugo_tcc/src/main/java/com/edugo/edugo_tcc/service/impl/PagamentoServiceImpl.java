@@ -44,28 +44,82 @@ public class PagamentoServiceImpl implements PagamentoService {
         this.conversorGenericoEntidade = conversorGenericoEntidade;
     }
 
+    // /**
+    //  * Método responsável por criar um pagamento
+    //  *
+    //  * @param pagamentoDTO
+    //  * @return PagamentoDTO
+    //  */
+    // @Override
+    // public PagamentoDTO criarPagamento(PagamentoDTO pagamentoDTO) {
+    //     try {
+    //         Pagamento pagamento = conversorGenericoEntidade.converterParaEntidade(pagamentoDTO, Pagamento.class);
+
+    //         Aluno aluno = alunoRepository
+    //                 .findById(pagamentoDTO.getAluno().getId())
+    //                 .orElseThrow(() -> new RuntimeException("Aluno não encontrado com ID: " + pagamentoDTO.getAluno().getId()));
+
+    //         pagamento.setAluno(aluno);
+    //         Pagamento pagamentoSalvo = pagamentoRepository.save(pagamento);
+
+    //         return conversorGenericoDTO.converterParaDTO(pagamentoSalvo, PagamentoDTO.class);
+    //     } catch (Exception error) {
+    //         throw new RuntimeException("Erro ao criar pagamento: " + error.getMessage(), error);
+    //     }
+    // }
+
     /**
-     * Método responsável por criar um pagamento
+     * Método responsável por gerar um pagamento para um aluno
      *
-     * @param pagamentoDTO
+     * @param alunoId
      * @return PagamentoDTO
      */
-    @Override
-    public PagamentoDTO criarPagamento(PagamentoDTO pagamentoDTO) {
-        try {
-            Pagamento pagamento = conversorGenericoEntidade.converterParaEntidade(pagamentoDTO, Pagamento.class);
+    @Transactional
+    public PagamentoDTO gerarPagamentoParaAluno(UUID alunoId) {
+        //Busca o aluno
+        Aluno aluno = alunoRepository
+            .findById(alunoId)
+            .orElseThrow(() -> new RuntimeException("Aluno não encontrado com ID: " + alunoId));
 
-            Aluno aluno = alunoRepository
-                    .findById(pagamentoDTO.getAluno().getId())
-                    .orElseThrow(() -> new RuntimeException("Aluno não encontrado com ID: " + pagamentoDTO.getAluno().getId()));
+        //Busca as matriculas ativas do aluno
+        List<Matricula> matriculasAtivas = matriculaRepository.findByAlunoAndStatus(aluno, "ATIVO");
 
-            pagamento.setAluno(aluno);
-            Pagamento pagamentoSalvo = pagamentoRepository.save(pagamento);
-
-            return conversorGenericoDTO.converterParaDTO(pagamentoSalvo, PagamentoDTO.class);
-        } catch (Exception error) {
-            throw new RuntimeException("Erro ao criar pagamento: " + error.getMessage(), error);
+        //Se não houver matriculas ATIVO retorna nulo
+        if (matriculasAtivas.isEmpty()) {
+            return null; 
         }
+
+        BigDecimal valorTotal = BigDecimal.ZERO;
+        LocalDate dataMatriculaMaisRecente = null;
+
+        //Busca o valor das disciplinas matriculadas
+        for (Matricula matricula : matriculasAtivas) {
+            Disciplina disciplina = matricula.getDisciplina();
+            valorTotal = valorTotal.add(disciplina.getValor());
+
+            if (dataMatriculaMaisRecente == null || matricula.getDataMatricula().isAfter(dataMatriculaMaisRecente)) {
+                dataMatriculaMaisRecente = matricula.getDataMatricula();
+            }
+        }
+
+        //Se houver uma data de matricula adiciona 1 mês 
+        LocalDate dataVencimento = null;
+        if (dataMatriculaMaisRecente != null) {
+            dataVencimento = dataMatriculaMaisRecente.plusMonths(1);
+        } else {
+            // Lógica de fallback caso não haja data de matrícula
+            dataVencimento = LocalDate.now().plusMonths(1);
+        }
+
+        //Gera um novo pagamento
+        Pagamento novoPagamento = new Pagamento();
+        novoPagamento.setAluno(aluno);
+        novoPagamento.setValor(valorTotal);
+        novoPagamento.setDataVencimento(dataVencimento);
+        novoPagamento.setStatus("PENDENTE");
+
+        Pagamento pagamentoSalvo = pagamentoRepository.save(novoPagamento);
+        return conversorGenericoDTO.converterParaDTO(pagamentoSalvo, PagamentoDTO.class);
     }
 
     /**
@@ -146,54 +200,5 @@ public class PagamentoServiceImpl implements PagamentoService {
         } catch (Exception error) {
             throw new RuntimeException("Erro ao excluir pagamento: " + error.getMessage(), error);
         }
-    }
-
-    //Métodos da Classe
-    /**
-     * Método responsável por gerar um pagamento para um aluno
-     *
-     * @param alunoId
-     * @return PagamentoDTO
-     */
-    @Transactional
-    public PagamentoDTO gerarPagamentoParaAluno(UUID alunoId) {
-        Aluno aluno = alunoRepository
-            .findById(alunoId)
-            .orElseThrow(() -> new RuntimeException("Aluno não encontrado com ID: " + alunoId));
-
-        List<Matricula> matriculasAtivas = matriculaRepository.findByAlunoAndStatus(aluno, "ATIVO");
-
-        if (matriculasAtivas.isEmpty()) {
-            return null; 
-        }
-
-        BigDecimal valorTotal = BigDecimal.ZERO;
-        LocalDate dataMatriculaMaisRecente = null;
-
-        for (Matricula matricula : matriculasAtivas) {
-            Disciplina disciplina = matricula.getDisciplina();
-            valorTotal = valorTotal.add(disciplina.getValor());
-
-            if (dataMatriculaMaisRecente == null || matricula.getDataMatricula().isAfter(dataMatriculaMaisRecente)) {
-                dataMatriculaMaisRecente = matricula.getDataMatricula();
-            }
-        }
-
-        LocalDate dataVencimento = null;
-        if (dataMatriculaMaisRecente != null) {
-            dataVencimento = dataMatriculaMaisRecente.plusMonths(1);
-        } else {
-            // Lógica de fallback caso não haja data de matrícula
-            dataVencimento = LocalDate.now().plusMonths(1);
-        }
-
-        Pagamento novoPagamento = new Pagamento();
-        novoPagamento.setAluno(aluno);
-        novoPagamento.setValor(valorTotal);
-        novoPagamento.setDataVencimento(dataVencimento);
-        novoPagamento.setStatus("PENDENTE");
-
-        Pagamento pagamentoSalvo = pagamentoRepository.save(novoPagamento);
-        return conversorGenericoDTO.converterParaDTO(pagamentoSalvo, PagamentoDTO.class);
     }
 }
