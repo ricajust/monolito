@@ -19,7 +19,7 @@ public class Funcionario extends Usuario {
     @Past
     private LocalDate dataContratacao;
     
-    @NotBlank
+    @NotNull
     private int nivelAcesso;
 
     //metodos
