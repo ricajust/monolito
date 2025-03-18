@@ -25,8 +25,8 @@ public class Pagamento {
     private Aluno aluno;
 
     @NotNull
-    @Column(name = "valor", nullable = false)
-    private BigDecimal valor;
+    @Column(name = "valorTotal", nullable = false)
+    private BigDecimal valorTotal;
 
     @NotNull
     @Column(name = "data_vencimento", nullable = false)

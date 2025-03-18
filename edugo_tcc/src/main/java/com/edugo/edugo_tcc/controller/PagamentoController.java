@@ -23,37 +23,30 @@ public class PagamentoController {
         this.pagamentoService = pagamentoService;
     }
 
-    // @PostMapping
-    // public ResponseEntity<PagamentoDTO> criarPagamento(@RequestBody PagamentoDTO pagamentoDTO) {
-    //     PagamentoDTO pagamentoCriado = pagamentoService.criarPagamento(pagamentoDTO);
-    //     return ResponseEntity.status(HttpStatus.CREATED).body(pagamentoCriado);
-    // }
-
     @PostMapping("/gerar/{alunoId}") // Novo endpoint para gerar pagamento por alunoId
     public ResponseEntity<PagamentoResponseDTO> gerarPagamentoParaAluno(@PathVariable UUID alunoId) {
-        PagamentoDTO pagamentoGeradoDTO = pagamentoService.gerarPagamentoParaAluno(alunoId);
-        if (pagamentoGeradoDTO != null) {
-            PagamentoResponseDTO pagamentoResponseDTO = converterParaPagamentoResponseDTO(pagamentoGeradoDTO);
-            return ResponseEntity.status(HttpStatus.CREATED).body(pagamentoResponseDTO);
+        PagamentoResponseDTO pagamentoGerado = pagamentoService.gerarPagamentoParaAluno(alunoId);
+        if (pagamentoGerado != null) {
+            return ResponseEntity.status(HttpStatus.CREATED).body(pagamentoGerado);
         } else {
             return ResponseEntity.notFound().build();
         }
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<PagamentoDTO> buscarPagamentoPorId(@PathVariable UUID id) {
-        PagamentoDTO pagamentoDTO = pagamentoService.buscarPagamentoPorId(id);
-        if (pagamentoDTO != null) {
-            return ResponseEntity.ok(pagamentoDTO);
+    public ResponseEntity<PagamentoResponseDTO> buscarPagamentoPorId(@PathVariable UUID id) {
+        PagamentoResponseDTO pagamentoResponseDTO = pagamentoService.buscarPagamentoPorId(id);
+        if (pagamentoResponseDTO != null) {
+            return ResponseEntity.ok(pagamentoResponseDTO);
         } else {
             return ResponseEntity.notFound().build();
         }
     }
 
     @GetMapping
-    public ResponseEntity<List<PagamentoDTO>> buscarTodosPagamentos() {
-        List<PagamentoDTO> pagamentosDTO = pagamentoService.buscarTodosPagamentos();
-        return ResponseEntity.ok(pagamentosDTO);
+    public ResponseEntity<List<PagamentoResponseDTO>> buscarTodosPagamentos() {
+        List<PagamentoResponseDTO> pagamentosResponseDTO = pagamentoService.buscarTodosPagamentos();
+        return ResponseEntity.ok(pagamentosResponseDTO);
     }
 
     @PutMapping("/{id}")
@@ -82,7 +75,7 @@ public class PagamentoController {
     private PagamentoResponseDTO converterParaPagamentoResponseDTO(PagamentoDTO pagamentoDTO) {
         PagamentoResponseDTO responseDTO = new PagamentoResponseDTO();
         responseDTO.setId(pagamentoDTO.getId());
-        responseDTO.setValor(pagamentoDTO.getValor());
+        responseDTO.setValorTotal(pagamentoDTO.getValor());
         responseDTO.setDataVencimento(pagamentoDTO.getDataVencimento());
         responseDTO.setStatus(pagamentoDTO.getStatus());
 
