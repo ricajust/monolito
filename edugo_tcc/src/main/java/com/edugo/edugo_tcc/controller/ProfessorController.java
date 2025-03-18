@@ -81,6 +81,7 @@ public class ProfessorController {
         ProfessorDTO professorAtualizado = professorService.atualizarProfessor(id, professorDTO);
         if (professorAtualizado != null) {
             ProfessorResponseDTO professorResponseDTO = converterParaResponseDTO(professorAtualizado);
+
             return ResponseEntity.ok(professorResponseDTO);
         } else {
             return ResponseEntity.notFound().build();

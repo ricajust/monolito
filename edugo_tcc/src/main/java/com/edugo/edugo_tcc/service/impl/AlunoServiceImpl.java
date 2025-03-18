@@ -41,7 +41,7 @@ public class AlunoServiceImpl implements AlunoService {
     public AlunoDTO criarAluno(AlunoDTO alunoDTO) {
         try {
             Aluno aluno = conversorGenericoEntidade.converterParaEntidade(alunoDTO, Aluno.class);
-            System.out.println("Entidade Aluno após conversão: " + aluno.toString()); // Adicionado log
+            aluno.setCpf(aluno.getCpf().replaceAll("[^0-9]", ""));//Remove os caracteres de "-" e "."
             Aluno alunoSalvo = alunoRepository.save(aluno);
             return conversorGenericoDTO.converterParaDTO(alunoSalvo, AlunoDTO.class);
         } catch(Exception error) {
@@ -96,11 +96,21 @@ public class AlunoServiceImpl implements AlunoService {
     public AlunoDTO atualizarAluno(UUID id, AlunoDTO alunoDTO) {
         try {
             Aluno alunoExistente = alunoRepository
-                    .findById(id)
-                    .orElseThrow(() -> new RuntimeException("Aluno não encontrado com o ID: " + id));
+                .findById(id)
+                .orElseThrow(() -> new RuntimeException("Aluno não encontrado com o ID: " + id));
             Aluno alunoAtualizado = conversorGenericoEntidade.converterParaEntidade(alunoDTO, Aluno.class);
             alunoAtualizado.setId(alunoExistente.getId()); // Garante que o ID seja mantido
+            alunoAtualizado.setCpf(alunoExistente.getCpf().replaceAll("[^0-9]", ""));//Remove os caracteres de "-" e "."
+            
+            // Atualizar a senha apenas se um novo valor for fornecido
+            if(alunoDTO.getSenha() != null && !alunoDTO.getSenha().isEmpty()) {
+                alunoAtualizado.setSenha(alunoDTO.getSenha());
+            } else {
+                alunoAtualizado.setSenha(alunoExistente.getSenha()); // Manter a senha existente
+            }
+
             alunoAtualizado = alunoRepository.save(alunoAtualizado);
+
             return conversorGenericoDTO.converterParaDTO(alunoAtualizado, AlunoDTO.class);
         } catch(Exception error) {
             throw new RuntimeException("Erro ao atualizar aluno: " + error.getMessage(), error);

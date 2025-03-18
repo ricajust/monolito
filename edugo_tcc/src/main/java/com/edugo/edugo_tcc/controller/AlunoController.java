@@ -2,7 +2,6 @@ package com.edugo.edugo_tcc.controller;
 
 import com.edugo.edugo_tcc.dto.AlunoDTO;
 import com.edugo.edugo_tcc.dto.AlunoResponseDTO;
-import com.edugo.edugo_tcc.dto.ProfessorResponseDTO;
 import com.edugo.edugo_tcc.service.AlunoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

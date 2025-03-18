@@ -96,12 +96,20 @@ public class FuncionarioServiceImpl implements FuncionarioService {
     @Override
     public FuncionarioDTO atualizarFuncionario(UUID id, FuncionarioDTO funcionarioDTO) {
         try {
-            Funcionario funcionario = funcionarioRepository
+            Funcionario funcionarioExistente = funcionarioRepository
                 .findById(id)
-                .orElseThrow(() -> new RuntimeException("Funcionário não encontrado"));
-            funcionario = conversorGenericoEntidade.converterParaEntidade(funcionarioDTO, Funcionario.class);
-            funcionario.setId(id);
-            Funcionario funcionarioAtualizado = funcionarioRepository.save(funcionario);
+                .orElseThrow(() -> new RuntimeException("Funcionário não encontrado com o ID: " + id));
+            Funcionario funcionarioAtualizado = conversorGenericoEntidade.converterParaEntidade(funcionarioDTO, Funcionario.class);
+            funcionarioAtualizado.setId(funcionarioExistente.getId());
+                        
+            // Atualizar a senha apenas se um novo valor for fornecido
+            if(funcionarioDTO.getSenha() != null && !funcionarioDTO.getSenha().isEmpty()) {
+                funcionarioAtualizado.setSenha(funcionarioDTO.getSenha());
+            } else {
+                funcionarioAtualizado.setSenha(funcionarioExistente.getSenha()); // Manter a senha existente
+            }
+
+            funcionarioAtualizado = funcionarioRepository.save(funcionarioAtualizado);
             return conversorGenericoDTO.converterParaDTO(funcionarioAtualizado, FuncionarioDTO.class);
         } catch(Exception error) {
             throw new RuntimeException("Erro ao atualizar funcionário: " + error.getMessage(), error);
