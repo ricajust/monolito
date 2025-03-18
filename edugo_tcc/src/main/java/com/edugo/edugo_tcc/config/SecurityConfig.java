@@ -37,8 +37,11 @@ public class SecurityConfig {
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS) // JWT é stateless
                 )
                 .authorizeHttpRequests((authorize) -> authorize
-                        .requestMatchers(new AntPathRequestMatcher("/auth/**")).permitAll()
-                        .anyRequest().authenticated()
+                    .requestMatchers(new AntPathRequestMatcher("/auth/**")).permitAll()
+                    .requestMatchers(new AntPathRequestMatcher("/swagger-ui/**")).permitAll() // Permite acesso ao Swagger UI
+                    .requestMatchers(new AntPathRequestMatcher("/v3/api-docs/**")).permitAll() // Permite acesso à documentação OpenAPI
+                    .requestMatchers(new AntPathRequestMatcher("/webjars/**")).permitAll() // Permite acesso aos recursos do Swagger UI
+                    .anyRequest().authenticated()
                 )
                 .authenticationProvider(authenticationProvider())
                 .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class); // Adiciona o filtro JWT
@@ -58,7 +61,6 @@ public class SecurityConfig {
         return new BCryptPasswordEncoder();
     }
 
-    // Adicione este método novamente
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration config) throws Exception {
         return config.getAuthenticationManager();
