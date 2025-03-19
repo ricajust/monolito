@@ -1,0 +1,1602 @@
+[
+  {
+    "faltas": 2,
+    "nota": 8.1,
+    "aluno": {
+      "id": "19094345-a2da-465b-aa42-246be6199151"
+    },
+    "disciplina": {
+      "id": 2
+    }
+  },
+  {
+    "faltas": 1,
+    "nota": 7.5,
+    "aluno": {
+      "id": "19094345-a2da-465b-aa42-246be6199151"
+    },
+    "disciplina": {
+      "id": 52
+    }
+  },
+  {
+    "faltas": 0,
+    "nota": 9.3,
+    "aluno": {
+      "id": "19094345-a2da-465b-aa42-246be6199151"
+    },
+    "disciplina": {
+      "id": 102
+    }
+  },
+  {
+    "faltas": 4,
+    "nota": 6.8,
+    "aluno": {
+      "id": "19094345-a2da-465b-aa42-246be6199151"
+    },
+    "disciplina": {
+      "id": 152
+    }
+  },
+  {
+    "faltas": 0,
+    "nota": 8.9,
+    "aluno": {
+      "id": "19094345-a2da-465b-aa42-246be6199151"
+    },
+    "disciplina": {
+      "id": 153
+    }
+  },
+  {
+    "faltas": 3,
+    "nota": 7.2,
+    "aluno": {
+      "id": "e242b257-8ada-4107-a0ff-bed7daab1123"
+    },
+    "disciplina": {
+      "id": 154
+    }
+  },
+  {
+    "faltas": 0,
+    "nota": 9.0,
+    "aluno": {
+      "id": "e242b257-8ada-4107-a0ff-bed7daab1123"
+    },
+    "disciplina": {
+      "id": 155
+    }
+  },
+  {
+    "faltas": 6,
+    "nota": 6.5,
+    "aluno": {
+      "id": "e242b257-8ada-4107-a0ff-bed7daab1123"
+    },
+    "disciplina": {
+      "id": 156
+    }
+  },
+  {
+    "faltas": 1,
+    "nota": 8.7,
+    "aluno": {
+      "id": "e242b257-8ada-4107-a0ff-bed7daab1123"
+    },
+    "disciplina": {
+      "id": 157
+    }
+  },
+  {
+    "faltas": 2,
+    "nota": 7.8,
+    "aluno": {
+      "id": "e242b257-8ada-4107-a0ff-bed7daab1123"
+    },
+    "disciplina": {
+      "id": 158
+    }
+  },
+  {
+    "faltas": 0,
+    "nota": 9.4,
+    "aluno": {
+      "id": "0c9cb1ab-1d5e-499a-9c9d-afe43efd0bf2"
+    },
+    "disciplina": {
+      "id": 159
+    }
+  },
+  {
+    "faltas": 7,
+    "nota": 6.3,
+    "aluno": {
+      "id": "0c9cb1ab-1d5e-499a-9c9d-afe43efd0bf2"
+    },
+    "disciplina": {
+      "id": 160
+    }
+  },
+  {
+    "faltas": 1,
+    "nota": 8.2,
+    "aluno": {
+      "id": "0c9cb1ab-1d5e-499a-9c9d-afe43efd0bf2"
+    },
+    "disciplina": {
+      "id": 161
+    }
+  },
+  {
+    "faltas": 3,
+    "nota": 7.7,
+    "aluno": {
+      "id": "0c9cb1ab-1d5e-499a-9c9d-afe43efd0bf2"
+    },
+    "disciplina": {
+      "id": 162
+    }
+  },
+  {
+    "faltas": 0,
+    "nota": 9.9,
+    "aluno": {
+      "id": "0c9cb1ab-1d5e-499a-9c9d-afe43efd0bf2"
+    },
+    "disciplina": {
+      "id": 163
+    }
+  },
+  {
+    "faltas": 5,
+    "nota": 7.0,
+    "aluno": {
+      "id": "cbbc18cc-569d-49e4-95af-2cec0a62dcbd"
+    },
+    "disciplina": {
+      "id": 164
+    }
+  },
+  {
+    "faltas": 0,
+    "nota": 8.6,
+    "aluno": {
+      "id": "cbbc18cc-569d-49e4-95af-2cec0a62dcbd"
+    },
+    "disciplina": {
+      "id": 165
+    }
+  },
+  {
+    "faltas": 8,
+    "nota": 6.1,
+    "aluno": {
+      "id": "cbbc18cc-569d-49e4-95af-2cec0a62dcbd"
+    },
+    "disciplina": {
+      "id": 166
+    }
+  },
+  {
+    "faltas": 0,
+    "nota": 9.3,
+    "aluno": {
+      "id": "cbbc18cc-569d-49e4-95af-2cec0a62dcbd"
+    },
+    "disciplina": {
+      "id": 167
+    }
+  },
+  {
+    "faltas": 2,
+    "nota": 7.4,
+    "aluno": {
+      "id": "cbbc18cc-569d-49e4-95af-2cec0a62dcbd"
+    },
+    "disciplina": {
+      "id": 168
+    }
+  },
+  {
+    "faltas": 1,
+    "nota": 8.5,
+    "aluno": {
+      "id": "eb279f4d-37f1-406a-a53f-ed89bdd252aa"
+    },
+    "disciplina": {
+      "id": 169
+    }
+  },
+  {
+    "faltas": 3,
+    "nota": 7.9,
+    "aluno": {
+      "id": "eb279f4d-37f1-406a-a53f-ed89bdd252aa"
+    },
+    "disciplina": {
+      "id": 170
+    }
+  },
+  {
+    "faltas": 0,
+    "nota": 9.6,
+    "aluno": {
+      "id": "eb279f4d-37f1-406a-a53f-ed89bdd252aa"
+    },
+    "disciplina": {
+      "id": 171
+    }
+  },
+  {
+    "faltas": 9,
+    "nota": 6.0,
+    "aluno": {
+      "id": "eb279f4d-37f1-406a-a53f-ed89bdd252aa"
+    },
+    "disciplina": {
+      "id": 172
+    }
+  },
+  {
+    "faltas": 2,
+    "nota": 8.1,
+    "aluno": {
+      "id": "eb279f4d-37f1-406a-a53f-ed89bdd252aa"
+    },
+    "disciplina": {
+      "id": 173
+    }
+  },
+  {
+    "faltas": 4,
+    "nota": 7.3,
+    "aluno": {
+      "id": "8c6566a6-a451-4be7-9ede-5cc1b53ba843"
+    },
+    "disciplina": {
+      "id": 174
+    }
+  },
+  {
+    "faltas": 0,
+    "nota": 9.7,
+    "aluno": {
+      "id": "8c6566a6-a451-4be7-9ede-5cc1b53ba843"
+    },
+    "disciplina": {
+      "id": 1
+    }
+  },
+  {
+    "faltas": 7,
+    "nota": 6.7,
+    "aluno": {
+      "id": "8c6566a6-a451-4be7-9ede-5cc1b53ba843"
+    },
+    "disciplina": {
+      "id": 2
+    }
+  },
+  {
+    "faltas": 1,
+    "nota": 8.4,
+    "aluno": {
+      "id": "8c6566a6-a451-4be7-9ede-5cc1b53ba843"
+    },
+    "disciplina": {
+      "id": 52
+    }
+  },
+  {
+    "faltas": 5,
+    "nota": 7.0,
+    "aluno": {
+      "id": "8c6566a6-a451-4be7-9ede-5cc1b53ba843"
+    },
+    "disciplina": {
+      "id": 102
+    }
+  },
+  {
+    "faltas": 0,
+    "nota": 9.2,
+    "aluno": {
+      "id": "0e1ec798-7bcb-4246-92c6-b1194c9ff64d"
+    },
+    "disciplina": {
+      "id": 152
+    }
+  },
+  {
+    "faltas": 6,
+    "nota": 6.9,
+    "aluno": {
+      "id": "0e1ec798-7bcb-4246-92c6-b1194c9ff64d"
+    },
+    "disciplina": {
+      "id": 153
+    }
+  },
+  {
+    "faltas": 1,
+    "nota": 8.6,
+    "aluno": {
+      "id": "0e1ec798-7bcb-4246-92c6-b1194c9ff64d"
+    },
+    "disciplina": {
+      "id": 154
+    }
+  },
+  {
+    "faltas": 3,
+    "nota": 7.1,
+    "aluno": {
+      "id": "0e1ec798-7bcb-4246-92c6-b1194c9ff64d"
+    },
+    "disciplina": {
+      "id": 155
+    }
+  },
+  {
+    "faltas": 0,
+    "nota": 9.8,
+    "aluno": {
+      "id": "0e1ec798-7bcb-4246-92c6-b1194c9ff64d"
+    },
+    "disciplina": {
+      "id": 156
+    }
+  },
+  {
+    "faltas": 2,
+    "nota": 7.6,
+    "aluno": {
+      "id": "ccfcb48e-2351-47ac-b77f-3e6a9b909189"
+    },
+    "disciplina": {
+      "id": 157
+    }
+  },
+  {
+    "faltas": 0,
+    "nota": 9.1,
+    "aluno": {
+      "id": "ccfcb48e-2351-47ac-b77f-3e6a9b909189"
+    },
+    "disciplina": {
+      "id": 158
+    }
+  },
+  {
+    "faltas": 7,
+    "nota": 6.4,
+    "aluno": {
+      "id": "ccfcb48e-2351-47ac-b77f-3e6a9b909189"
+    },
+    "disciplina": {
+      "id": 159
+    }
+  },
+  {
+    "faltas": 1,
+    "nota": 8.3,
+    "aluno": {
+      "id": "ccfcb48e-2351-47ac-b77f-3e6a9b909189"
+    },
+    "disciplina": {
+      "id": 160
+    }
+  },
+  {
+    "faltas": 3,
+    "nota": 7.9,
+    "aluno": {
+      "id": "ccfcb48e-2351-47ac-b77f-3e6a9b909189"
+    },
+    "disciplina": {
+      "id": 161
+    }
+  },
+  {
+    "faltas": 0,
+    "nota": 9.5,
+    "aluno": {
+      "id": "53ea1842-97f4-4562-83cf-552075b6a18b"
+    },
+    "disciplina": {
+      "id": 162
+    }
+  },
+  {
+    "faltas": 5,
+    "nota": 6.6,
+    "aluno": {
+      "id": "53ea1842-97f4-4562-83cf-552075b6a18b"
+    },
+    "disciplina": {
+      "id": 163
+    }
+  },
+  {
+    "faltas": 2,
+    "nota": 8.1,
+    "aluno": {
+      "id": "53ea1842-97f4-4562-83cf-552075b6a18b"
+    },
+    "disciplina": {
+      "id": 164
+    }
+  },
+  {
+    "faltas": 4,
+    "nota": 7.4,
+    "aluno": {
+      "id": "53ea1842-97f4-4562-83cf-552075b6a18b"
+    },
+    "disciplina": {
+      "id": 165
+    }
+  },
+  {
+    "faltas": 0,
+    "nota": 9.0,
+    "aluno": {
+      "id": "53ea1842-97f4-4562-83cf-552075b6a18b"
+    },
+    "disciplina": {
+      "id": 166
+    }
+  },
+  {
+    "faltas": 3,
+    "nota": 7.1,
+    "aluno": {
+      "id": "ae6dc565-1286-44e3-b26f-1da6936bb234"
+    },
+    "disciplina": {
+      "id": 167
+    }
+  },
+  {
+    "faltas": 0,
+    "nota": 8.8,
+    "aluno": {
+      "id": "ae6dc565-1286-44e3-b26f-1da6936bb234"
+    },
+    "disciplina": {
+      "id": 168
+    }
+  },
+  {
+    "faltas": 6,
+    "nota": 6.7,
+    "aluno": {
+      "id": "ae6dc565-1286-44e3-b26f-1da6936bb234"
+    },
+    "disciplina": {
+      "id": 169
+    }
+  },
+  {
+    "faltas": 0,
+    "nota": 9.3,
+    "aluno": {
+      "id": "ae6dc565-1286-44e3-b26f-1da6936bb234"
+    },
+    "disciplina": {
+      "id": 170
+    }
+  },
+  {
+    "faltas": 1,
+    "nota": 8.2,
+    "aluno": {
+      "id": "ae6dc565-1286-44e3-b26f-1da6936bb234"
+    },
+    "disciplina": {
+      "id": 171
+    }
+  },
+  {
+    "faltas": 0,
+    "nota": 9.9,
+    "aluno": {
+      "id": "ec5710c5-9c39-4e5f-be7f-4aca0ee0766f"
+    },
+    "disciplina": {
+      "id": 172
+    }
+  },
+  {
+    "faltas": 9,
+    "nota": 6.0,
+    "aluno": {
+      "id": "ec5710c5-9c39-4e5f-be7f-4aca0ee0766f"
+    },
+    "disciplina": {
+      "id": 173
+    }
+  },
+  {
+    "faltas": 1,
+    "nota": 8.7,
+    "aluno": {
+      "id": "ec5710c5-9c39-4e5f-be7f-4aca0ee0766f"
+    },
+    "disciplina": {
+      "id": 174
+    }
+  },
+  {
+    "faltas": 4,
+    "nota": 7.5,
+    "aluno": {
+      "id": "ec5710c5-9c39-4e5f-be7f-4aca0ee0766f"
+    },
+    "disciplina": {
+      "id": 1
+    }
+  },
+  {
+    "faltas": 0,
+    "nota": 9.1,
+    "aluno": {
+      "id": "ec5710c5-9c39-4e5f-be7f-4aca0ee0766f"
+    },
+    "disciplina": {
+      "id": 2
+    }
+  },
+  {
+    "faltas": 1,
+    "nota": 8.3,
+    "aluno": {
+      "id": "1375d219-75b5-4369-ac72-3fb905e15d2e"
+    },
+    "disciplina": {
+      "id": 52
+    }
+  },
+  {
+    "faltas": 2,
+    "nota": 7.8,
+    "aluno": {
+      "id": "1375d219-75b5-4369-ac72-3fb905e15d2e"
+    },
+    "disciplina": {
+      "id": 102
+    }
+  },
+  {
+    "faltas": 0,
+    "nota": 9.6,
+    "aluno": {
+      "id": "1375d219-75b5-4369-ac72-3fb905e15d2e"
+    },
+    "disciplina": {
+      "id": 152
+    }
+  },
+  {
+    "faltas": 7,
+    "nota": 6.2,
+    "aluno": {
+      "id": "1375d219-75b5-4369-ac72-3fb905e15d2e"
+    },
+    "disciplina": {
+      "id": 153
+    }
+  },
+  {
+    "faltas": 0,
+    "nota": 8.9,
+    "aluno": {
+      "id": "1375d219-75b5-4369-ac72-3fb905e15d2e"
+    },
+    "disciplina": {
+      "id": 154
+    }
+  },
+  {
+    "faltas": 3,
+    "nota": 7.4,
+    "aluno": {
+      "id": "04ec6a82-0415-47f7-b0c8-1bc153b4e000"
+    },
+    "disciplina": {
+      "id": 155
+    }
+  },
+  {
+    "faltas": 0,
+    "nota": 9.1,
+    "aluno": {
+      "id": "04ec6a82-0415-47f7-b0c8-1bc153b4e000"
+    },
+    "disciplina": {
+      "id": 156
+    }
+  },
+  {
+    "faltas": 6,
+    "nota": 6.6,
+    "aluno": {
+      "id": "04ec6a82-0415-47f7-b0c8-1bc153b4e000"
+    },
+    "disciplina": {
+      "id": 157
+    }
+  },
+  {
+    "faltas": 1,
+    "nota": 8.5,
+    "aluno": {
+      "id": "04ec6a82-0415-47f7-b0c8-1bc153b4e000"
+    },
+    "disciplina": {
+      "id": 158
+    }
+  },
+  {
+    "faltas": 2,
+    "nota": 7.9,
+    "aluno": {
+      "id": "04ec6a82-0415-47f7-b0c8-1bc153b4e000"
+    },
+    "disciplina": {
+      "id": 159
+    }
+  },
+  {
+    "faltas": 0,
+    "nota": 9.7,
+    "aluno": {
+      "id": "46b03ae6-fa0e-479a-8280-5b869beaaaac"
+    },
+    "disciplina": {
+      "id": 160
+    }
+  },
+  {
+    "faltas": 7,
+    "nota": 6.4,
+    "aluno": {
+      "id": "46b03ae6-fa0e-479a-8280-5b869beaaaac"
+    },
+    "disciplina": {
+      "id": 161
+    }
+  },
+  {
+    "faltas": 1,
+    "nota": 8.2,
+    "aluno": {
+      "id": "46b03ae6-fa0e-479a-8280-5b869beaaaac"
+    },
+    "disciplina": {
+      "id": 162
+    }
+  },
+  {
+    "faltas": 5,
+    "nota": 7.0,
+    "aluno": {
+      "id": "46b03ae6-fa0e-479a-8280-5b869beaaaac"
+    },
+    "disciplina": {
+      "id": 163
+    }
+  },
+  {
+    "faltas": 0,
+    "nota": 9.4,
+    "aluno": {
+      "id": "46b03ae6-fa0e-479a-8280-5b869beaaaac"
+    },
+    "disciplina": {
+      "id": 164
+    }
+  },
+  {
+    "faltas": 2,
+    "nota": 7.6,
+    "aluno": {
+      "id": "8c76878f-b667-44ed-adaa-df290135bace"
+    },
+    "disciplina": {
+      "id": 165
+    }
+  },
+  {
+    "faltas": 0,
+    "nota": 9.0,
+    "aluno": {
+      "id": "8c76878f-b667-44ed-adaa-df290135bace"
+    },
+    "disciplina": {
+      "id": 166
+    }
+  },
+  {
+    "faltas": 8,
+    "nota": 6.1,
+    "aluno": {
+      "id": "8c76878f-b667-44ed-adaa-df290135bace"
+    },
+    "disciplina": {
+      "id": 167
+    }
+  },
+  {
+    "faltas": 1,
+    "nota": 8.3,
+    "aluno": {
+      "id": "8c76878f-b667-44ed-adaa-df290135bace"
+    },
+    "disciplina": {
+      "id": 168
+    }
+  },
+  {
+    "faltas": 3,
+    "nota": 7.7,
+    "aluno": {
+      "id": "8c76878f-b667-44ed-adaa-df290135bace"
+    },
+    "disciplina": {
+      "id": 169
+    }
+  },
+  {
+    "faltas": 0,
+    "nota": 9.1,
+    "aluno": {
+      "id": "6d26d397-1486-4e2a-93d4-5d9f4987d506"
+    },
+    "disciplina": {
+      "id": 170
+    }
+  },
+  {
+    "faltas": 5,
+    "nota": 6.8,
+    "aluno": {
+      "id": "6d26d397-1486-4e2a-93d4-5d9f4987d506"
+    },
+    "disciplina": {
+      "id": 171
+    }
+  },
+  {
+    "faltas": 2,
+    "nota": 8.4,
+    "aluno": {
+      "id": "6d26d397-1486-4e2a-93d4-5d9f4987d506"
+    },
+    "disciplina": {
+      "id": 172
+    }
+  },
+  {
+    "faltas": 4,
+    "nota": 7.0,
+    "aluno": {
+      "id": "6d26d397-1486-4e2a-93d4-5d9f4987d506"
+    },
+    "disciplina": {
+      "id": 173
+    }
+  },
+  {
+    "faltas": 0,
+    "nota": 9.6,
+    "aluno": {
+      "id": "6d26d397-1486-4e2a-93d4-5d9f4987d506"
+    },
+    "disciplina": {
+      "id": 174
+    }
+  },
+  {
+    "faltas": 1,
+    "nota": 7.7,
+    "aluno": {
+      "id": "7c5f7bb4-da51-486a-b4d7-399ef9c5bb06"
+    },
+    "disciplina": {
+      "id": 1
+    }
+  },
+  {
+    "faltas": 0,
+    "nota": 9.2,
+    "aluno": {
+      "id": "7c5f7bb4-da51-486a-b4d7-399ef9c5bb06"
+    },
+    "disciplina": {
+      "id": 2
+    }
+  },
+  {
+    "faltas": 8,
+    "nota": 6.5,
+    "aluno": {
+      "id": "7c5f7bb4-da51-486a-b4d7-399ef9c5bb06"
+    },
+    "disciplina": {
+      "id": 52
+    }
+  },
+  {
+    "faltas": 0,
+    "nota": 8.9,
+    "aluno": {
+      "id": "7c5f7bb4-da51-486a-b4d7-399ef9c5bb06"
+    },
+    "disciplina": {
+      "id": 102
+    }
+  },
+  {
+    "faltas": 5,
+    "nota": 7.0,
+    "aluno": {
+      "id": "7c5f7bb4-da51-486a-b4d7-399ef9c5bb06"
+    },
+    "disciplina": {
+      "id": 152
+    }
+  },
+  {
+    "faltas": 0,
+    "nota": 9.3,
+    "aluno": {
+      "id": "ba9cd3b7-4165-4de0-802a-37ea28f8959a"
+    },
+    "disciplina": {
+      "id": 153
+    }
+  },
+  {
+    "faltas": 7,
+    "nota": 6.1,
+    "aluno": {
+      "id": "ba9cd3b7-4165-4de0-802a-37ea28f8959a"
+    },
+    "disciplina": {
+      "id": 154
+    }
+  },
+  {
+    "faltas": 1,
+    "nota": 8.2,
+    "aluno": {
+      "id": "ba9cd3b7-4165-4de0-802a-37ea28f8959a"
+    },
+    "disciplina": {
+      "id": 155
+    }
+  },
+  {
+    "faltas": 3,
+    "nota": 7.7,
+    "aluno": {
+      "id": "ba9cd3b7-4165-4de0-802a-37ea28f8959a"
+    },
+    "disciplina": {
+      "id": 156
+    }
+  },
+  {
+    "faltas": 0,
+    "nota": 9.9,
+    "aluno": {
+      "id": "ba9cd3b7-4165-4de0-802a-37ea28f8959a"
+    },
+    "disciplina": {
+      "id": 157
+    }
+  },
+  {
+    "faltas": 5,
+    "nota": 7.0,
+    "aluno": {
+      "id": "cc271f8f-0c01-4a51-a058-def62b934c07"
+    },
+    "disciplina": {
+      "id": 158
+    }
+  },
+  {
+    "faltas": 0,
+    "nota": 8.6,
+    "aluno": {
+      "id": "cc271f8f-0c01-4a51-a058-def62b934c07"
+    },
+    "disciplina": {
+      "id": 159
+    }
+  },
+  {
+    "faltas": 8,
+    "nota": 6.1,
+    "aluno": {
+      "id": "cc271f8f-0c01-4a51-a058-def62b934c07"
+    },
+    "disciplina": {
+      "id": 160
+    }
+  },
+  {
+    "faltas": 0,
+    "nota": 9.3,
+    "aluno": {
+      "id": "cc271f8f-0c01-4a51-a058-def62b934c07"
+    },
+    "disciplina": {
+      "id": 161
+    }
+  },
+  {
+    "faltas": 2,
+    "nota": 7.4,
+    "aluno": {
+      "id": "cc271f8f-0c01-4a51-a058-def62b934c07"
+    },
+    "disciplina": {
+      "id": 162
+    }
+  },
+  {
+    "faltas": 1,
+    "nota": 8.5,
+    "aluno": {
+      "id": "7b2ce095-b0ca-4eb0-bcef-0e04a9890d54"
+    },
+    "disciplina": {
+      "id": 163
+    }
+  },
+  {
+    "faltas": 3,
+    "nota": 7.9,
+    "aluno": {
+      "id": "7b2ce095-b0ca-4eb0-bcef-0e04a9890d54"
+    },
+    "disciplina": {
+      "id": 164
+    }
+  },
+  {
+    "faltas": 0,
+    "nota": 9.6,
+    "aluno": {
+      "id": "7b2ce095-b0ca-4eb0-bcef-0e04a9890d54"
+    },
+    "disciplina": {
+      "id": 165
+    }
+  },
+  {
+    "faltas": 9,
+    "nota": 6.0,
+    "aluno": {
+      "id": "7b2ce095-b0ca-4eb0-bcef-0e04a9890d54"
+    },
+    "disciplina": {
+      "id": 166
+    }
+  },
+  {
+    "faltas": 2,
+    "nota": 8.1,
+    "aluno": {
+      "id": "7b2ce095-b0ca-4eb0-bcef-0e04a9890d54"
+    },
+    "disciplina": {
+      "id": 167
+    }
+  },
+  {
+    "faltas": 4,
+    "nota": 7.3,
+    "aluno": {
+      "id": "ffe5bb4c-d8dd-4abb-a64b-35ac87a78423"
+    },
+    "disciplina": {
+      "id": 168
+    }
+  },
+  {
+    "faltas": 0,
+    "nota": 9.7,
+    "aluno": {
+      "id": "ffe5bb4c-d8dd-4abb-a64b-35ac87a78423"
+    },
+    "disciplina": {
+      "id": 169
+    }
+  },
+  {
+    "faltas": 7,
+    "nota": 6.7,
+    "aluno": {
+      "id": "ffe5bb4c-d8dd-4abb-a64b-35ac87a78423"
+    },
+    "disciplina": {
+      "id": 170
+    }
+  },
+  {
+    "faltas": 1,
+    "nota": 8.4,
+    "aluno": {
+      "id": "ffe5bb4c-d8dd-4abb-a64b-35ac87a78423"
+    },
+    "disciplina": {
+      "id": 171
+    }
+  },
+  {
+    "faltas": 5,
+    "nota": 7.0,
+    "aluno": {
+      "id": "ffe5bb4c-d8dd-4abb-a64b-35ac87a78423"
+    },
+    "disciplina": {
+      "id": 172
+    }
+  },
+  {
+    "faltas": 0,
+    "nota": 9.2,
+    "aluno": {
+      "id": "1da4ff59-af59-490e-84b4-8fd420e4978a"
+    },
+    "disciplina": {
+      "id": 173
+    }
+  },
+  {
+    "faltas": 6,
+    "nota": 6.9,
+    "aluno": {
+      "id": "1da4ff59-af59-490e-84b4-8fd420e4978a"
+    },
+    "disciplina": {
+      "id": 174
+    }
+  },
+  {
+    "faltas": 1,
+    "nota": 8.6,
+    "aluno": {
+      "id": "1da4ff59-af59-490e-84b4-8fd420e4978a"
+    },
+    "disciplina": {
+      "id": 1
+    }
+  },
+  {
+    "faltas": 3,
+    "nota": 7.1,
+    "aluno": {
+      "id": "1da4ff59-af59-490e-84b4-8fd420e4978a"
+    },
+    "disciplina": {
+      "id": 2
+    }
+  },
+  {
+    "faltas": 0,
+    "nota": 9.8,
+    "aluno": {
+      "id": "1da4ff59-af59-490e-84b4-8fd420e4978a"
+    },
+    "disciplina": {
+      "id": 52
+    }
+  },
+  {
+    "faltas": 2,
+    "nota": 7.6,
+    "aluno": {
+      "id": "e1adabcb-9e9d-496e-94af-6d2dcfbb89f4"
+    },
+    "disciplina": {
+      "id": 102
+    }
+  },
+  {
+    "faltas": 0,
+    "nota": 9.1,
+    "aluno": {
+      "id": "e1adabcb-9e9d-496e-94af-6d2dcfbb89f4"
+    },
+    "disciplina": {
+      "id": 152
+    }
+  },
+  {
+    "faltas": 7,
+    "nota": 6.4,
+    "aluno": {
+      "id": "e1adabcb-9e9d-496e-94af-6d2dcfbb89f4"
+    },
+    "disciplina": {
+      "id": 153
+    }
+  },
+  {
+    "faltas": 1,
+    "nota": 8.3,
+    "aluno": {
+      "id": "e1adabcb-9e9d-496e-94af-6d2dcfbb89f4"
+    },
+    "disciplina": {
+      "id": 154
+    }
+  },
+  {
+    "faltas": 3,
+    "nota": 7.9,
+    "aluno": {
+      "id": "e1adabcb-9e9d-496e-94af-6d2dcfbb89f4"
+    },
+    "disciplina": {
+      "id": 155
+    }
+  },
+  {
+    "faltas": 0,
+    "nota": 9.5,
+    "aluno": {
+      "id": "05316dba-f211-48e4-a9aa-792a1381a600"
+    },
+    "disciplina": {
+      "id": 156
+    }
+  },
+  {
+    "faltas": 5,
+    "nota": 6.6,
+    "aluno": {
+      "id": "05316dba-f211-48e4-a9aa-792a1381a600"
+    },
+    "disciplina": {
+      "id": 157
+    }
+  },
+  {
+    "faltas": 2,
+    "nota": 8.1,
+    "aluno": {
+      "id": "05316dba-f211-48e4-a9aa-792a1381a600"
+    },
+    "disciplina": {
+      "id": 158
+    }
+  },
+  {
+    "faltas": 4,
+    "nota": 7.4,
+    "aluno": {
+      "id": "05316dba-f211-48e4-a9aa-792a1381a600"
+    },
+    "disciplina": {
+      "id": 159
+    }
+  },
+  {
+    "faltas": 0,
+    "nota": 9.0,
+    "aluno": {
+      "id": "05316dba-f211-48e4-a9aa-792a1381a600"
+    },
+    "disciplina": {
+      "id": 160
+    }
+  },
+  {
+    "faltas": 3,
+    "nota": 7.1,
+    "aluno": {
+      "id": "d0cab581-d6eb-4e0f-8625-75624dc36d2a"
+    },
+    "disciplina": {
+      "id": 161
+    }
+  },
+  {
+    "faltas": 0,
+    "nota": 8.8,
+    "aluno": {
+      "id": "d0cab581-d6eb-4e0f-8625-75624dc36d2a"
+    },
+    "disciplina": {
+      "id": 162
+    }
+  },
+  {
+    "faltas": 6,
+    "nota": 6.7,
+    "aluno": {
+      "id": "d0cab581-d6eb-4e0f-8625-75624dc36d2a"
+    },
+    "disciplina": {
+      "id": 163
+    }
+  },
+  {
+    "faltas": 0,
+    "nota": 9.3,
+    "aluno": {
+      "id": "d0cab581-d6eb-4e0f-8625-75624dc36d2a"
+    },
+    "disciplina": {
+      "id": 164
+    }
+  },
+  {
+    "faltas": 1,
+    "nota": 8.2,
+    "aluno": {
+      "id": "d0cab581-d6eb-4e0f-8625-75624dc36d2a"
+    },
+    "disciplina": {
+      "id": 165
+    }
+  },
+  {
+    "faltas": 0,
+    "nota": 9.9,
+    "aluno": {
+      "id": "d86d40c3-fe12-4c82-86b9-5b9df50c3ec6"
+    },
+    "disciplina": {
+      "id": 166
+    }
+  },
+  {
+    "faltas": 9,
+    "nota": 6.0,
+    "aluno": {
+      "id": "d86d40c3-fe12-4c82-86b9-5b9df50c3ec6"
+    },
+    "disciplina": {
+      "id": 167
+    }
+  },
+  {
+    "faltas": 1,
+    "nota": 8.7,
+    "aluno": {
+      "id": "d86d40c3-fe12-4c82-86b9-5b9df50c3ec6"
+    },
+    "disciplina": {
+      "id": 168
+    }
+  },
+  {
+    "faltas": 4,
+    "nota": 7.5,
+    "aluno": {
+      "id": "d86d40c3-fe12-4c82-86b9-5b9df50c3ec6"
+    },
+    "disciplina": {
+      "id": 169
+    }
+  },
+  {
+    "faltas": 0,
+    "nota": 9.1,
+    "aluno": {
+      "id": "d86d40c3-fe12-4c82-86b9-5b9df50c3ec6"
+    },
+    "disciplina": {
+      "id": 170
+    }
+  },
+  {
+    "faltas": 1,
+    "nota": 8.3,
+    "aluno": {
+      "id": "6b8ef4fe-d0fb-4d23-9f2f-a51be46ab281"
+    },
+    "disciplina": {
+      "id": 171
+    }
+  },
+  {
+    "faltas": 2,
+    "nota": 7.8,
+    "aluno": {
+      "id": "6b8ef4fe-d0fb-4d23-9f2f-a51be46ab281"
+    },
+    "disciplina": {
+      "id": 172
+    }
+  },
+  {
+    "faltas": 0,
+    "nota": 9.6,
+    "aluno": {
+      "id": "6b8ef4fe-d0fb-4d23-9f2f-a51be46ab281"
+    },
+    "disciplina": {
+      "id": 173
+    }
+  },
+  {
+    "faltas": 7,
+    "nota": 6.2,
+    "aluno": {
+      "id": "6b8ef4fe-d0fb-4d23-9f2f-a51be46ab281"
+    },
+    "disciplina": {
+      "id": 174
+    }
+  },
+  {
+    "faltas": 0,
+    "nota": 8.9,
+    "aluno": {
+      "id": "6b8ef4fe-d0fb-4d23-9f2f-a51be46ab281"
+    },
+    "disciplina": {
+      "id": 1
+    }
+  },
+  {
+    "faltas": 3,
+    "nota": 7.4,
+    "aluno": {
+      "id": "ca451dd5-503b-4693-a273-df5d03d44bfe"
+    },
+    "disciplina": {
+      "id": 2
+    }
+  },
+  {
+    "faltas": 0,
+    "nota": 9.1,
+    "aluno": {
+      "id": "ca451dd5-503b-4693-a273-df5d03d44bfe"
+    },
+    "disciplina": {
+      "id": 52
+    }
+  },
+  {
+    "faltas": 6,
+    "nota": 6.6,
+    "aluno": {
+      "id": "ca451dd5-503b-4693-a273-df5d03d44bfe"
+    },
+    "disciplina": {
+      "id": 102
+    }
+  },
+  {
+    "faltas": 1,
+    "nota": 8.5,
+    "aluno": {
+      "id": "ca451dd5-503b-4693-a273-df5d03d44bfe"
+    },
+    "disciplina": {
+      "id": 152
+    }
+  },
+  {
+    "faltas": 2,
+    "nota": 7.9,
+    "aluno": {
+      "id": "ca451dd5-503b-4693-a273-df5d03d44bfe"
+    },
+    "disciplina": {
+      "id": 153
+    }
+  },
+  {
+    "faltas": 0,
+    "nota": 9.7,
+    "aluno": {
+      "id": "a3d8d3f2-8999-4eca-9950-eef6f223283e"
+    },
+    "disciplina": {
+      "id": 154
+    }
+  },
+  {
+    "faltas": 7,
+    "nota": 6.4,
+    "aluno": {
+      "id": "a3d8d3f2-8999-4eca-9950-eef6f223283e"
+    },
+    "disciplina": {
+      "id": 155
+    }
+  },
+  {
+    "faltas": 1,
+    "nota": 8.2,
+    "aluno": {
+      "id": "a3d8d3f2-8999-4eca-9950-eef6f223283e"
+    },
+    "disciplina": {
+      "id": 156
+    }
+  },
+  {
+    "faltas": 5,
+    "nota": 7.0,
+    "aluno": {
+      "id": "a3d8d3f2-8999-4eca-9950-eef6f223283e"
+    },
+    "disciplina": {
+      "id": 157
+    }
+  },
+  {
+    "faltas": 0,
+    "nota": 9.4,
+    "aluno": {
+      "id": "a3d8d3f2-8999-4eca-9950-eef6f223283e"
+    },
+    "disciplina": {
+      "id": 158
+    }
+  },
+  {
+    "faltas": 2,
+    "nota": 7.6,
+    "aluno": {
+      "id": "faf82468-3946-4ebf-843b-b14483ae7c56"
+    },
+    "disciplina": {
+      "id": 159
+    }
+  },
+  {
+    "faltas": 0,
+    "nota": 9.1,
+    "aluno": {
+      "id": "faf82468-3946-4ebf-843b-b14483ae7c56"
+    },
+    "disciplina": {
+      "id": 160
+    }
+  },
+  {
+    "faltas": 7,
+    "nota": 6.4,
+    "aluno": {
+      "id": "faf82468-3946-4ebf-843b-b14483ae7c56"
+    },
+    "disciplina": {
+      "id": 161
+    }
+  },
+  {
+    "faltas": 1,
+    "nota": 8.3,
+    "aluno": {
+      "id": "faf82468-3946-4ebf-843b-b14483ae7c56"
+    },
+    "disciplina": {
+      "id": 162
+    }
+  },
+  {
+    "faltas": 3,
+    "nota": 7.9,
+    "aluno": {
+      "id": "faf82468-3946-4ebf-843b-b14483ae7c56"
+    },
+    "disciplina": {
+      "id": 163
+    }
+  },
+  {
+    "faltas": 0,
+    "nota": 9.5,
+    "aluno": {
+      "id": "e389aac6-9c72-4881-b481-7e9174d222e5"
+    },
+    "disciplina": {
+      "id": 164
+    }
+  },
+  {
+    "faltas": 5,
+    "nota": 6.6,
+    "aluno": {
+      "id": "e389aac6-9c72-4881-b481-7e9174d222e5"
+    },
+    "disciplina": {
+      "id": 165
+    }
+  },
+  {
+    "faltas": 2,
+    "nota": 8.1,
+    "aluno": {
+      "id": "e389aac6-9c72-4881-b481-7e9174d222e5"
+    },
+    "disciplina": {
+      "id": 166
+    }
+  },
+  {
+    "faltas": 4,
+    "nota": 7.4,
+    "aluno": {
+      "id": "e389aac6-9c72-4881-b481-7e9174d222e5"
+    },
+    "disciplina": {
+      "id": 167
+    }
+  },
+  {
+    "faltas": 0,
+    "nota": 9.0,
+    "aluno": {
+      "id": "e389aac6-9c72-4881-b481-7e9174d222e5"
+    },
+    "disciplina": {
+      "id": 168
+    }
+  },
+  {
+    "faltas": 3,
+    "nota": 7.1,
+    "aluno": {
+      "id": "93e37be3-32e8-42f5-969a-4de900697412"
+    },
+    "disciplina": {
+      "id": 169
+    }
+  },
+  {
+    "faltas": 0,
+    "nota": 8.8,
+    "aluno": {
+      "id": "93e37be3-32e8-42f5-969a-4de900697412"
+    },
+    "disciplina": {
+      "id": 170
+    }
+  },
+  {
+    "faltas": 6,
+    "nota": 6.7,
+    "aluno": {
+      "id": "93e37be3-32e8-42f5-969a-4de900697412"
+    },
+    "disciplina": {
+      "id": 171
+    }
+  },
+  {
+    "faltas": 0,
+    "nota": 9.3,
+    "aluno": {
+      "id": "93e37be3-32e8-42f5-969a-4de900697412"
+    },
+    "disciplina": {
+      "id": 172
+    }
+  },
+  {
+    "faltas": 1,
+    "nota": 8.2,
+    "aluno": {
+      "id": "93e37be3-32e8-42f5-969a-4de900697412"
+    },
+    "disciplina": {
+      "id": 173
+    }
+  }
+]

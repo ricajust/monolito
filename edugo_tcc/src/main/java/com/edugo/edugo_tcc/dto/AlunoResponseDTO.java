@@ -18,5 +18,5 @@ public class AlunoResponseDTO {
     private String cidade;
     private String uf;
     private String cep;
-    private List<MatriculaDTO> matricula;
+    // private List<MatriculaDTO> matricula;
 }
