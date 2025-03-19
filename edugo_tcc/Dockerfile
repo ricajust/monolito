@@ -5,8 +5,7 @@ FROM openjdk:21-jdk-slim
 WORKDIR /app
 
 # Copie o arquivo JAR construído para dentro do container
-# Assumindo que você usou Maven e o JAR está na pasta target.
-# Ajuste se você estiver usando Gradle (build/libs/*.jar).
+# Assumindo que o JAR está na pasta target.
 COPY target/*.jar app.jar
 
 # Exponha a porta em que a sua aplicação Java está rodando (geralmente 8080 para Spring Boot)

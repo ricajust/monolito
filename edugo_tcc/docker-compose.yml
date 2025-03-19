@@ -2,7 +2,7 @@ version: '3.8'
 
 services:
   db:
-    image: postgres:16-alpine
+    image: edugo-db-with-data # Use sua nova imagem aqui
     container_name: edugo_db
     environment:
       POSTGRES_USER: ricajust
@@ -11,7 +11,7 @@ services:
     ports:
       - "5433:5432"
     volumes:
-      - edugo_db_data:/var/lib/postgresql/data
+      - edugo_db_data:/var/lib/postgresql/data # Você ainda pode usar o volume para futuras persistências
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U ricajust -d edugo"]
       interval: 5s
@@ -19,7 +19,8 @@ services:
       retries: 5
 
   app:
-    image: edugo-app-java21 # Use o nome da imagem que você construiu
+    # Sua configuração da aplicação permanece a mesma
+    image: edugo-app-java21
     container_name: edugo_app
     ports:
       - "8080:8080"
