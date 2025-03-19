@@ -1,0 +1,35 @@
+version: '3.8'
+
+services:
+  db:
+    image: postgres:16-alpine
+    container_name: edugo_db
+    environment:
+      POSTGRES_USER: ricajust
+      POSTGRES_PASSWORD: '123'
+      POSTGRES_DB: edugo
+    ports:
+      - "5433:5432"
+    volumes:
+      - edugo_db_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ricajust -d edugo"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  app:
+    image: edugo-app-java21 # Use o nome da imagem que você construiu
+    container_name: edugo_app
+    ports:
+      - "8080:8080"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/edugo
+      SPRING_DATASOURCE_USERNAME: ricajust
+      SPRING_DATASOURCE_PASSWORD: 123
+    depends_on:
+      db:
+        condition: service_healthy
+
+volumes:
+  edugo_db_data:
