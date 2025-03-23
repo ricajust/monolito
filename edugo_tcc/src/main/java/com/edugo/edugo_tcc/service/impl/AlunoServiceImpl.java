@@ -1,11 +1,16 @@
 package com.edugo.edugo_tcc.service.impl;
 
 import com.edugo.edugo_tcc.dto.AlunoDTO;
+import com.edugo.edugo_tcc.event.AlunoAtualizadoEvent;
+import com.edugo.edugo_tcc.event.AlunoCriadoEvent;
+import com.edugo.edugo_tcc.event.AlunoExcluidoEvent;
 import com.edugo.edugo_tcc.model.Aluno;
 import com.edugo.edugo_tcc.repository.AlunoRepository;
 import com.edugo.edugo_tcc.service.AlunoService;
 import com.edugo.edugo_tcc.util.ConversorGenericoDTO;
 import com.edugo.edugo_tcc.util.ConversorGenericoEntidade;
+
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.List;
@@ -18,17 +23,20 @@ public class AlunoServiceImpl implements AlunoService {
     private final AlunoRepository alunoRepository;
     private final ConversorGenericoDTO conversorGenericoDTO;
     private final ConversorGenericoEntidade conversorGenericoEntidade;
-
+    private final RabbitTemplate rabbitTemplate;
+    private final String alunosExchangeName = "aluno-exchange";
 
     @Autowired
     public AlunoServiceImpl(
         AlunoRepository alunoRepository, 
         ConversorGenericoDTO conversorGenericoDTO, 
-        ConversorGenericoEntidade conversorGenericoEntidade) 
+        ConversorGenericoEntidade conversorGenericoEntidade,
+        RabbitTemplate rabbitTemplate) 
         {
             this.alunoRepository = alunoRepository;
             this.conversorGenericoDTO = conversorGenericoDTO;
             this.conversorGenericoEntidade = conversorGenericoEntidade;
+            this.rabbitTemplate = rabbitTemplate;
         }
 
     /**
@@ -43,7 +51,13 @@ public class AlunoServiceImpl implements AlunoService {
             Aluno aluno = conversorGenericoEntidade.converterParaEntidade(alunoDTO, Aluno.class);
             aluno.setCpf(aluno.getCpf().replaceAll("[^0-9]", ""));//Remove os caracteres de "-" e "."
             Aluno alunoSalvo = alunoRepository.save(aluno);
-            return conversorGenericoDTO.converterParaDTO(alunoSalvo, AlunoDTO.class);
+            AlunoDTO alunoCriadoDTO = conversorGenericoDTO.converterParaDTO(alunoSalvo, AlunoDTO.class);
+
+            // Publica o evento AlunoCriado
+            AlunoCriadoEvent alunoCriadoEvent = new AlunoCriadoEvent(alunoCriadoDTO);
+            rabbitTemplate.convertAndSend(alunosExchangeName, "", alunoCriadoEvent); // Rota key é ignorada em Fanout exchange
+            
+            return alunoCriadoDTO;
         } catch(Exception error) {
             throw new RuntimeException("Erro ao criar aluno: " + error.getMessage(), error);
         }
@@ -110,8 +124,13 @@ public class AlunoServiceImpl implements AlunoService {
             }
 
             alunoAtualizado = alunoRepository.save(alunoAtualizado);
+            AlunoDTO alunoAtualizadoDTO = conversorGenericoDTO.converterParaDTO(alunoAtualizado, AlunoDTO.class);
 
-            return conversorGenericoDTO.converterParaDTO(alunoAtualizado, AlunoDTO.class);
+            // Publica o evento AlunoAtualizado
+            AlunoAtualizadoEvent alunoAtualizadoEvent = new AlunoAtualizadoEvent(alunoAtualizadoDTO);
+            rabbitTemplate.convertAndSend(alunosExchangeName, "", alunoAtualizadoEvent);
+
+            return alunoAtualizadoDTO;
         } catch(Exception error) {
             throw new RuntimeException("Erro ao atualizar aluno: " + error.getMessage(), error);
 
@@ -131,7 +150,13 @@ public class AlunoServiceImpl implements AlunoService {
                     .findById(id)
                     .orElseThrow(() -> new RuntimeException("Aluno não encontrado com o ID: " + id));
             alunoRepository.delete(aluno);
-            return conversorGenericoDTO.converterParaDTO(aluno, AlunoDTO.class);
+            AlunoDTO alunoExcluidoDTO = conversorGenericoDTO.converterParaDTO(aluno, AlunoDTO.class);
+            
+            // Publica o evento AlunoExcluido
+            AlunoExcluidoEvent alunoExcluidoEvent = new AlunoExcluidoEvent(id); // Usamos o ID para o evento de exclusão
+            rabbitTemplate.convertAndSend(alunosExchangeName, "", alunoExcluidoEvent);
+
+            return alunoExcluidoDTO;
         } catch(Exception error) {
             throw new RuntimeException("Erro ao excluir o aluno com ID " + id + ": " + error.getMessage(), error);
         }
