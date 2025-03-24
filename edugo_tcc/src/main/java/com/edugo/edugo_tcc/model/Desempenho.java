@@ -18,7 +18,7 @@ public class Desempenho {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private UUID id;
     
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     @JoinColumn(name = "aluno_id", nullable = false)
     private Aluno aluno;
 

@@ -13,9 +13,15 @@ import com.edugo.edugo_tcc.util.ConversorGenericoEntidade;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 import java.util.stream.Collectors;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @Service
 public class AlunoServiceImpl implements AlunoService {
@@ -24,7 +30,8 @@ public class AlunoServiceImpl implements AlunoService {
     private final ConversorGenericoDTO conversorGenericoDTO;
     private final ConversorGenericoEntidade conversorGenericoEntidade;
     private final RabbitTemplate rabbitTemplate;
-    private final String alunosExchangeName = "aluno-exchange";
+    private final String alunosExchangeName = "alunos.exchange";
+    private static final Logger logger = LoggerFactory.getLogger(AlunoService.class);
 
     @Autowired
     public AlunoServiceImpl(
@@ -48,17 +55,27 @@ public class AlunoServiceImpl implements AlunoService {
     @Override
     public AlunoDTO criarAluno(AlunoDTO alunoDTO) {
         try {
+            // 1. Conversão e limpeza do CPF
             Aluno aluno = conversorGenericoEntidade.converterParaEntidade(alunoDTO, Aluno.class);
-            aluno.setCpf(aluno.getCpf().replaceAll("[^0-9]", ""));//Remove os caracteres de "-" e "."
+            aluno.setCpf(aluno.getCpf().replaceAll("[^0-9]", "")); // Remove não numéricos
+            
+            // 2. Persistência
             Aluno alunoSalvo = alunoRepository.save(aluno);
             AlunoDTO alunoCriadoDTO = conversorGenericoDTO.converterParaDTO(alunoSalvo, AlunoDTO.class);
+            logger.info("Aluno criado com ID: {}", alunoCriadoDTO.getId());
 
-            // Publica o evento AlunoCriado
-            AlunoCriadoEvent alunoCriadoEvent = new AlunoCriadoEvent(alunoCriadoDTO);
-            rabbitTemplate.convertAndSend(alunosExchangeName, "", alunoCriadoEvent); // Rota key é ignorada em Fanout exchange
+            // 3. Publicação do evento (ESTRUTURA CHAVE)
+            Map<String, Object> mensagem = new HashMap<>();
+            mensagem.put("aluno", alunoCriadoDTO); // 👈 Envia o DTO diretamente, não o Event
+            mensagem.put("eventType", "AlunoCriado"); // 👈 Adiciona tipo para facilitar deserialização
             
+            rabbitTemplate.convertAndSend("alunos.exchange", "", mensagem);
+            logger.info("Evento publicado para o aluno ID: {}", alunoCriadoDTO.getId());
+            logger.info("Data de nascimento do aluno ID: {}", alunoCriadoDTO.getDataNascimento());
+
             return alunoCriadoDTO;
         } catch(Exception error) {
+            logger.error("Falha ao criar aluno", error);
             throw new RuntimeException("Erro ao criar aluno: " + error.getMessage(), error);
         }
     }
@@ -126,9 +143,13 @@ public class AlunoServiceImpl implements AlunoService {
             alunoAtualizado = alunoRepository.save(alunoAtualizado);
             AlunoDTO alunoAtualizadoDTO = conversorGenericoDTO.converterParaDTO(alunoAtualizado, AlunoDTO.class);
 
+            logger.info("Aluno alterado com ID: {}", alunoAtualizadoDTO.getId());
+
             // Publica o evento AlunoAtualizado
             AlunoAtualizadoEvent alunoAtualizadoEvent = new AlunoAtualizadoEvent(alunoAtualizadoDTO);
             rabbitTemplate.convertAndSend(alunosExchangeName, "", alunoAtualizadoEvent);
+
+            logger.info("Evento atualizarAluno publicado para o aluno com ID: {}", alunoAtualizadoDTO.getId());
 
             return alunoAtualizadoDTO;
         } catch(Exception error) {
@@ -152,9 +173,13 @@ public class AlunoServiceImpl implements AlunoService {
             alunoRepository.delete(aluno);
             AlunoDTO alunoExcluidoDTO = conversorGenericoDTO.converterParaDTO(aluno, AlunoDTO.class);
             
+            logger.info("Aluno excluido com ID: {}", alunoExcluidoDTO.getId());
+
             // Publica o evento AlunoExcluido
             AlunoExcluidoEvent alunoExcluidoEvent = new AlunoExcluidoEvent(id); // Usamos o ID para o evento de exclusão
             rabbitTemplate.convertAndSend(alunosExchangeName, "", alunoExcluidoEvent);
+
+            logger.info("Evento excluirAluno publicado para o aluno com ID: {}", alunoExcluidoDTO.getId());
 
             return alunoExcluidoDTO;
         } catch(Exception error) {
