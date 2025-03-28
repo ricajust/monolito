@@ -2,20 +2,15 @@ package com.edugo.edugo_tcc.event;
 
 import com.edugo.edugo_tcc.dto.AlunoDTO;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class AlunoCriadoEvent {
 
     private AlunoDTO aluno;
-    public AlunoCriadoEvent(){}
 
-    public AlunoCriadoEvent(AlunoDTO aluno){
-        this.aluno = aluno;
-    }
-
-    public AlunoDTO getAluno(){
-        return aluno;
-    }
-
-    public void setAluno(AlunoDTO aluno){
-        this.aluno = aluno;
-    }
 }

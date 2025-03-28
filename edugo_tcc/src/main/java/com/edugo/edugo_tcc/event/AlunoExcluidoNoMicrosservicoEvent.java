@@ -11,4 +11,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class AlunoExcluidoNoMicrosservicoEvent {
     public UUID id;
+    public String origem;
+    private String eventType;
 }

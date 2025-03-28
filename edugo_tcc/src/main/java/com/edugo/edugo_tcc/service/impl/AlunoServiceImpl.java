@@ -58,28 +58,33 @@ public class AlunoServiceImpl implements AlunoService {
             // 1. Conversão e limpeza do CPF
             Aluno aluno = conversorGenericoEntidade.converterParaEntidade(alunoDTO, Aluno.class);
             aluno.setCpf(aluno.getCpf().replaceAll("[^0-9]", "")); // Remove não numéricos
-            
+
+            logger.info("Entidade Aluno após conversão: {}", aluno); // Adicione este log
+
             // 2. Persistência
             Aluno alunoSalvo = alunoRepository.save(aluno);
+            logger.info("Entidade Aluno salva: {}", alunoSalvo); // Adicione este log
             AlunoDTO alunoCriadoDTO = conversorGenericoDTO.converterParaDTO(alunoSalvo, AlunoDTO.class);
             logger.info("Aluno criado com ID: {}", alunoCriadoDTO.getId());
 
             // 3. Publicação do evento (ESTRUTURA CHAVE)
-            Map<String, Object> mensagem = new HashMap<>();
-            mensagem.put("aluno", alunoCriadoDTO); // 👈 Envia o DTO diretamente, não o Event
-            mensagem.put("eventType", "AlunoCriado"); // 👈 Adiciona tipo para facilitar deserialização
-            
-            rabbitTemplate.convertAndSend("alunos.exchange", "", mensagem);
-            logger.info("Evento publicado para o aluno ID: {}", alunoCriadoDTO.getId());
-            logger.info("Data de nascimento do aluno ID: {}", alunoCriadoDTO.getDataNascimento());
+            if (!"monolito".equals(alunoDTO.getOrigem())) {
+                Map<String, Object> mensagem = new HashMap<>();
+                mensagem.put("aluno", alunoCriadoDTO); // 👈 Envia o DTO diretamente, não o Event
+                mensagem.put("eventType", "AlunoCriado"); // 👈 Adiciona tipo para facilitar deserialização
 
+                rabbitTemplate.convertAndSend("alunos.exchange", "", mensagem);
+                logger.info("Evento publicado para o aluno ID: {}", alunoCriadoDTO.getId());
+                logger.info("Data de nascimento do aluno ID: {}", alunoCriadoDTO.getDataNascimento());
+            } else {
+                logger.info("Evento de criação não publicado (origem: monolito).");
+            }
             return alunoCriadoDTO;
         } catch(Exception error) {
             logger.error("Falha ao criar aluno", error);
             throw new RuntimeException("Erro ao criar aluno: " + error.getMessage(), error);
         }
     }
-
     /**
      * Método responsável por buscar um aluno por ID
      * 
