@@ -31,9 +31,11 @@ public class AlunoMicrosservicoConsumer {
     public void receberAlunoCriado(Message message, AlunoCriadoNoMicrosservicoEvent evento) {
         String messageBody = new String(message.getBody());
         logger.info("Mensagem recebida (raw): {}", messageBody);
-        if (!"monolito".equals(evento.getOrigem()) && messageBody.contains("\"eventType\":\"AlunoCriado\"")) {
+        logger.info("Origem do evento recebido: {}", evento.getOrigem());
+        logger.info("EventType do evento recebido: {}", evento.getEventType()); // Adicione esta linha
+        if (!"monolito".equals(evento.getOrigem()) && "AlunoCriado".equals(evento.getEventType())) {
             logger.info("Evento AlunoCriado recebido do microsserviço: {}", evento);
-            AlunoDTO alunoDTO = converterParaDTO(evento, messageBody); // Passamos o messageBody para o converter
+            AlunoDTO alunoDTO = converterParaDTO(evento);
             alunoService.criarAluno(alunoDTO);
         } else if ("monolito".equals(evento.getOrigem())) {
             logger.info("Evento AlunoCriado ignorado (origem: monolito).");
@@ -72,7 +74,7 @@ public class AlunoMicrosservicoConsumer {
     // }
 
     // Método auxiliar para converter AlunoCriadoNoMicrosservicoEvent para AlunoDTO
-    private AlunoDTO converterParaDTO(AlunoCriadoNoMicrosservicoEvent evento, String messageBody) {
+    private AlunoDTO converterParaDTO(AlunoCriadoNoMicrosservicoEvent evento) {
         AlunoDTO dto = new AlunoDTO();
         dto.setId(evento.getId());
         dto.setNome(evento.getNome());
@@ -85,17 +87,9 @@ public class AlunoMicrosservicoConsumer {
         dto.setUf(evento.getUf());
         dto.setCep(evento.getCep());
         dto.setSenha(evento.getSenha());
-
-        try {
-            com.fasterxml.jackson.databind.JsonNode rootNode = new com.fasterxml.jackson.databind.ObjectMapper().readTree(messageBody);
-            String dataNascimentoStr = rootNode.path("dataNascimento").asText();
-            if (!dataNascimentoStr.isEmpty()) {
-                LocalDate dataNascimento = LocalDate.parse(dataNascimentoStr, dateFormatter);
-                dto.setDataNascimento(dataNascimento);
-            }
-        } catch (com.fasterxml.jackson.core.JsonProcessingException e) {
-            logger.error("Erro ao processar JSON para data de nascimento: {}", e.getMessage());
-        }
+        dto.setDataNascimento(evento.getDataNascimento() != null ? LocalDate.parse(evento.getDataNascimento(), dateFormatter) : null);
+        dto.setEventType(evento.getEventType());
+        dto.setOrigem(evento.getOrigem());
 
         return dto;
     }

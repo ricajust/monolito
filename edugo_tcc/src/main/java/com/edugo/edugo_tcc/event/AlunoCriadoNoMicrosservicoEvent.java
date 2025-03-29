@@ -9,6 +9,7 @@ import java.util.Date;
 import java.util.UUID;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonProperty; // Adicione esta importação
 
 @Data
 @AllArgsConstructor
@@ -17,7 +18,7 @@ public class AlunoCriadoNoMicrosservicoEvent {
     private UUID id;
     private String nome;
     private String cpf;
-    //@JsonFormat(pattern = "yyyy-MM-dd") // Adicione esta anotação
+    //@JsonFormat(pattern = "yyyy-MM-dd") 
     private String dataNascimento;
     private String email;
     private String telefone;
@@ -28,5 +29,6 @@ public class AlunoCriadoNoMicrosservicoEvent {
     private String cep;
     private String senha;
     private String origem;
+    @JsonProperty("eventType") 
     private String eventType;
 }

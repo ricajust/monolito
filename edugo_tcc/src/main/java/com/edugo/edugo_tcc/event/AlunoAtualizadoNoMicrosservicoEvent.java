@@ -17,7 +17,7 @@ public class AlunoAtualizadoNoMicrosservicoEvent {
     private UUID id;
     private String nome;
     private String cpf;
-    //@JsonFormat(pattern = "yyyy-MM-dd") // Adicione esta anotação
+    //@JsonFormat(pattern = "yyyy-MM-dd") 
     private String dataNascimento;
     private String email;
     private String telefone;

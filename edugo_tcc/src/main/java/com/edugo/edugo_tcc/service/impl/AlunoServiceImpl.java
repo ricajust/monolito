@@ -23,6 +23,7 @@ import java.util.stream.Collectors;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+
 @Service
 public class AlunoServiceImpl implements AlunoService {
 
@@ -58,20 +59,26 @@ public class AlunoServiceImpl implements AlunoService {
             // 1. Conversão e limpeza do CPF
             Aluno aluno = conversorGenericoEntidade.converterParaEntidade(alunoDTO, Aluno.class);
             aluno.setCpf(aluno.getCpf().replaceAll("[^0-9]", "")); // Remove não numéricos
+            aluno.setId(null); // Garante que o ID seja nulo para nova entidade
 
-            logger.info("Entidade Aluno após conversão: {}", aluno); // Adicione este log
+            // 2. Verifica se já existe um aluno com o mesmo CPF
+            if (alunoRepository.findByCpf(aluno.getCpf()).isPresent()) {
+                throw new RuntimeException("Já existe um aluno cadastrado com este CPF: " + aluno.getCpf());
+            }
 
-            // 2. Persistência
+            logger.info("Entidade Aluno após conversão: {}", aluno);
+
+            // 3. Persistência
             Aluno alunoSalvo = alunoRepository.save(aluno);
-            logger.info("Entidade Aluno salva: {}", alunoSalvo); // Adicione este log
+            logger.info("Entidade Aluno salva: {}", alunoSalvo);
             AlunoDTO alunoCriadoDTO = conversorGenericoDTO.converterParaDTO(alunoSalvo, AlunoDTO.class);
             logger.info("Aluno criado com ID: {}", alunoCriadoDTO.getId());
 
-            // 3. Publicação do evento (ESTRUTURA CHAVE)
+            // 4. Publicação do evento
             if (!"monolito".equals(alunoDTO.getOrigem())) {
                 Map<String, Object> mensagem = new HashMap<>();
-                mensagem.put("aluno", alunoCriadoDTO); // 👈 Envia o DTO diretamente, não o Event
-                mensagem.put("eventType", "AlunoCriado"); // 👈 Adiciona tipo para facilitar deserialização
+                mensagem.put("aluno", alunoCriadoDTO);
+                mensagem.put("eventType", "AlunoCriado");
 
                 rabbitTemplate.convertAndSend("alunos.exchange", "", mensagem);
                 logger.info("Evento publicado para o aluno ID: {}", alunoCriadoDTO.getId());

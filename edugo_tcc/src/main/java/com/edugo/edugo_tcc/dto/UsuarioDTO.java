@@ -18,4 +18,6 @@ public class UsuarioDTO {
     private String uf;
     private String cep;
     private String senha;
+    private String origem;
+    private String eventType;
 }
