@@ -33,45 +33,47 @@ public class AlunoMicrosservicoConsumer {
         logger.info("Mensagem recebida (raw): {}", messageBody);
         logger.info("Origem do evento recebido: {}", evento.getOrigem());
         logger.info("EventType do evento recebido: {}", evento.getEventType()); // Adicione esta linha
-        if (!"monolito".equals(evento.getOrigem()) && "AlunoCriado".equals(evento.getEventType())) {
+        if (!"Monolito".equals(evento.getOrigem()) && "AlunoCriado".equals(evento.getEventType())) {
             logger.info("Evento AlunoCriado recebido do microsserviço: {}", evento);
             AlunoDTO alunoDTO = converterParaDTO(evento);
             alunoService.criarAluno(alunoDTO);
-        } else if ("monolito".equals(evento.getOrigem())) {
+        } else if ("Monolito".equals(evento.getOrigem())) {
             logger.info("Evento AlunoCriado ignorado (origem: monolito).");
         } else {
             logger.warn("Mensagem recebida não é do tipo AlunoCriado.");
         }
     }
 
-    // @RabbitListener(queues = "${rabbitmq.alunos.reverse.queue}")
-    // public void receberAlunoAtualizado(Message message, AlunoAtualizadoNoMicrosservicoEvent evento) {
-    //     String messageBody = new String(message.getBody());
-    //     logger.info("Mensagem recebida (raw): {}", messageBody);
-    //     if (!"monolito".equals(evento.getOrigem()) && messageBody.contains("\"eventType\":\"AlunoAtualizado\"")) {
-    //         logger.info("Evento AlunoAtualizado recebido do microsserviço: {}", evento);
-    //         AlunoDTO alunoDTO = converterParaDTO(evento);
-    //         alunoService.atualizarAluno(evento.getId(), alunoDTO); // Use o seu serviço para atualizar o aluno no monolito
-    //     } else if ("monolito".equals(evento.getOrigem())) {
-    //         logger.info("Evento AlunoAtualizado ignorado (origem: monolito).");
-    //     } else {
-    //         logger.warn("Mensagem recebida não é do tipo AlunoAtualizado.");
-    //     }
-    // }
+    @RabbitListener(queues = "${rabbitmq.alunos.reverse.queue}", messageConverter = "jackson2JsonMessageConverter")
+    public void receberAlunoAtualizado(Message message, AlunoAtualizadoNoMicrosservicoEvent evento) {
+        String messageBody = new String(message.getBody());
+        logger.info("Mensagem recebida (raw): {}", messageBody);
+        logger.info("Origem do evento recebido: {}", evento.getOrigem());
+        logger.info("EventType do evento recebido: {}", evento.getEventType()); // Adicione esta linha
+        if (!"Monolito".equals(evento.getOrigem()) && "AlunoAtualizado".equals(evento.getEventType())) {
+            logger.info("Evento AlunoAtualizado recebido do microsserviço: {}", evento);
+            AlunoDTO alunoDTO = converterParaDTO(evento);
+            alunoService.atualizarAluno(evento.getId(), alunoDTO); // <---- CORREÇÃO AQUI
+        } else if ("Monolito".equals(evento.getOrigem())) {
+            logger.info("Evento AlunoAtualizado ignorado (origem: monolito).");
+        } else {
+            logger.warn("Mensagem recebida não é do tipo AlunoAtualizado.");
+        }
+    }
 
-    // @RabbitListener(queues = "${rabbitmq.alunos.reverse.queue}")
-    // public void receberAlunoExcluido(Message message, AlunoExcluidoNoMicrosservicoEvent evento) {
-    //     String messageBody = new String(message.getBody());
-    //     logger.info("Mensagem recebida (raw): {}", messageBody);
-    //     if (!"monolito".equals(evento.getOrigem()) && messageBody.contains("\"eventType\":\"AlunoExcluido\"")) {
-    //         logger.info("Evento AlunoExcluido recebido do microsserviço: {}", evento);
-    //         alunoService.excluirAluno(evento.getId()); // Use o seu serviço para excluir o aluno no monolito
-    //     } else if ("monolito".equals(evento.getOrigem())) {
-    //         logger.info("Evento AlunoExcluido ignorado (origem: monolito).");
-    //     } else {
-    //         logger.warn("Mensagem recebida não é do tipo AlunoExcluido.");
-    //     }
-    // }
+    @RabbitListener(queues = "${rabbitmq.alunos.reverse.queue}")
+    public void receberAlunoExcluido(Message message, AlunoExcluidoNoMicrosservicoEvent evento) {
+        String messageBody = new String(message.getBody());
+        logger.info("Mensagem recebida (raw): {}", messageBody);
+        if (!"Monolito".equals(evento.getOrigem()) && "AlunoExcluido".equals(evento.getEventType())) {
+            logger.info("Evento AlunoExcluido recebido do microsserviço: {}", evento);
+            alunoService.excluirAluno(evento.getId()); // Use o seu serviço para excluir o aluno no monolito
+        } else if ("Monolito".equals(evento.getOrigem())) {
+            logger.info("Evento AlunoExcluido ignorado (origem: monolito).");
+        } else {
+            logger.warn("Mensagem recebida não é do tipo AlunoExcluido.");
+        }
+    }
 
     // Método auxiliar para converter AlunoCriadoNoMicrosservicoEvent para AlunoDTO
     private AlunoDTO converterParaDTO(AlunoCriadoNoMicrosservicoEvent evento) {
@@ -111,6 +113,9 @@ public class AlunoMicrosservicoConsumer {
         dto.setCidade(evento.getCidade());
         dto.setUf(evento.getUf());
         dto.setCep(evento.getCep());
+        dto.setSenha(evento.getSenha());
+        dto.setOrigem(evento.getOrigem());
+        dto.setEventType(evento.getEventType());
         return dto;
     }
 }

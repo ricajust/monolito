@@ -4,14 +4,17 @@ import org.springframework.amqp.core.Binding;
 import org.springframework.amqp.core.BindingBuilder;
 import org.springframework.amqp.core.FanoutExchange;
 import org.springframework.amqp.core.Queue;
+import org.springframework.amqp.rabbit.config.SimpleRabbitListenerContainerFactory;
 import org.springframework.amqp.rabbit.connection.ConnectionFactory;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.amqp.support.converter.Jackson2JsonMessageConverter;
 import org.springframework.amqp.support.converter.MessageConverter;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.autoconfigure.amqp.RabbitProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;
@@ -20,31 +23,38 @@ import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 @Configuration
 public class RabbitMQConfig {
 
-    // Configuração para a exchange "alunos.exchange" (monolito -> microsserviço)
+    private static final Logger logger = LoggerFactory.getLogger(RabbitMQConfig.class);
+
     @Bean
     public FanoutExchange alunosExchange() {
         return new FanoutExchange("alunos.exchange", true, false);
     }
 
-    // Configuração para a exchange "alunos.reverse.exchange" (microsserviço -> monolito)
     @Bean
     public FanoutExchange alunosReverseExchange() {
         return new FanoutExchange("alunos.reverse.exchange", true, true);
     }
 
-    // Queue para o monolito receber eventos do microsserviço
     @Value("${rabbitmq.alunos.reverse.queue}")
     private String alunosReverseQueueName;
 
     @Bean
     public Queue alunosReverseQueue() {
-        return new Queue(alunosReverseQueueName, true); // Durable queue
+        return new Queue(alunosReverseQueueName, true);
     }
 
-    // Binding da queue do monolito para a exchange "alunos.reverse.exchange"
     @Bean
     public Binding alunosReverseBinding(Queue alunosReverseQueue, FanoutExchange alunosReverseExchange) {
         return BindingBuilder.bind(alunosReverseQueue).to(alunosReverseExchange());
+    }
+
+    @Bean
+    public Jackson2JsonMessageConverter jackson2JsonMessageConverter() {
+        ObjectMapper mapper = new ObjectMapper();
+        mapper.registerModule(new JavaTimeModule());
+        mapper.setPropertyNamingStrategy(PropertyNamingStrategies.LOWER_CAMEL_CASE);
+        mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+        return new Jackson2JsonMessageConverter(mapper);
     }
 
     @Bean
@@ -55,13 +65,6 @@ public class RabbitMQConfig {
     }
 
     @Bean
-    public Jackson2JsonMessageConverter jackson2JsonMessageConverter() {
-        ObjectMapper mapper = new ObjectMapper();
-        mapper.registerModule(new JavaTimeModule());
-        return new Jackson2JsonMessageConverter(mapper);
-    }
-    
-    @Bean
     public MessageConverter messageConverter() {
         ObjectMapper mapper = new ObjectMapper();
         mapper.setPropertyNamingStrategy(PropertyNamingStrategies.LOWER_CAMEL_CASE);
@@ -69,4 +72,11 @@ public class RabbitMQConfig {
         return new Jackson2JsonMessageConverter(mapper);
     }
 
+    @Bean
+    public SimpleRabbitListenerContainerFactory alunoAtualizadoContainerFactory(ConnectionFactory connectionFactory, RabbitProperties rabbitProperties) {
+        SimpleRabbitListenerContainerFactory factory = new SimpleRabbitListenerContainerFactory();
+        factory.setConnectionFactory(connectionFactory);
+        factory.setMessageConverter(jackson2JsonMessageConverter()); // Usar o bean principal aqui
+        return factory;
+    }
 }

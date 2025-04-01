@@ -16,7 +16,8 @@ import lombok.NoArgsConstructor;
 public abstract class Usuario {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    // @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "id", columnDefinition = "BINARY(16)")
     private UUID id;
 
     @NotBlank
