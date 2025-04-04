@@ -9,5 +9,6 @@ public interface AlunoService {
     AlunoDTO buscarAlunoPorId(UUID id);
     List<AlunoDTO> buscarTodosAlunos();
     AlunoDTO atualizarAluno(UUID id, AlunoDTO alunoDTO);
+    AlunoDTO excluirAluno(UUID id, String origem);
     AlunoDTO excluirAluno(UUID id);
 }

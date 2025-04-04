@@ -79,8 +79,8 @@ public class AlunoMicrosservicoConsumer {
 
     @RabbitListener(
         bindings = @QueueBinding(
-            value = @Queue(value = "${rabbitmq.alunos.excluidos.queue}", durable = "true"),
-            exchange = @Exchange(value = "alunos.reverse.exchange", type = ExchangeTypes.DIRECT),
+            value = @Queue("rabbitmq.alunos.reverse.queue"),
+            exchange = @Exchange(value = "alunos.reverse.exchange", type = "direct"),
             key = "aluno.excluido"
         )
     )
@@ -89,7 +89,7 @@ public class AlunoMicrosservicoConsumer {
         logger.info("Mensagem recebida (raw): {}", messageBody);
         if (!"Monolito".equals(evento.getOrigem()) && "AlunoExcluido".equals(evento.getEventType())) {
             logger.info("Evento AlunoExcluido recebido do microsserviço: {}", evento);
-            alunoService.excluirAluno(evento.getId()); // Use o seu serviço para excluir o aluno no monolito
+            alunoService.excluirAluno(evento.getId(), evento.getOrigem()); // Passe a origem aqui
         } else if ("Monolito".equals(evento.getOrigem())) {
             logger.info("Evento AlunoExcluido ignorado (origem: monolito).");
         } else {
