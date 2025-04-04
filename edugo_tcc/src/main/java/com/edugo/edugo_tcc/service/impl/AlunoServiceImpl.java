@@ -10,6 +10,8 @@ import com.edugo.edugo_tcc.service.AlunoService;
 import com.edugo.edugo_tcc.util.ConversorGenericoDTO;
 import com.edugo.edugo_tcc.util.ConversorGenericoEntidade;
 
+import jakarta.transaction.Transactional;
+
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -83,11 +85,10 @@ public class AlunoServiceImpl implements AlunoService {
 
             // 4. Publicação do evento
             if (!"Monolito".equals(alunoDTO.getOrigem())) {
-                Map<String, Object> mensagem = new HashMap<>();
-                mensagem.put("aluno", alunoCriadoDTO);
-                mensagem.put("eventType", "AlunoCriado");
-
-                rabbitTemplate.convertAndSend("alunos.exchange", "", mensagem);
+                alunoCriadoDTO.setOrigem("Monolito");
+                alunoCriadoDTO.setEventType("AlunoCriado");
+                AlunoCriadoEvent alunoCriadoEvent = new AlunoCriadoEvent(alunoCriadoDTO);
+                rabbitTemplate.convertAndSend("alunos.exchange", "aluno.criado", alunoCriadoEvent);
                 logger.info("Evento publicado para o aluno ID: {}", alunoCriadoDTO.getId());
                 logger.info("Data de nascimento do aluno ID: {}", alunoCriadoDTO.getDataNascimento());
             } else {
@@ -167,8 +168,10 @@ public class AlunoServiceImpl implements AlunoService {
 
             // Publica o evento AlunoAtualizado SOMENTE se a origem não for o microsserviço
             if (!"Microsservico".equals(alunoDTO.getOrigem())) {
+                alunoAtualizadoDTO.setOrigem("Monolito");
+                alunoAtualizadoDTO.setEventType("AlunoAtualizado");
                 AlunoAtualizadoEvent alunoAtualizadoEvent = new AlunoAtualizadoEvent(alunoAtualizadoDTO);
-                rabbitTemplate.convertAndSend(alunosExchangeName, "", alunoAtualizadoEvent);
+                rabbitTemplate.convertAndSend(alunosExchangeName, "aluno.atualizado", alunoAtualizadoEvent);
                 logger.info("Evento atualizarAluno publicado para o aluno com ID: {}", alunoAtualizadoDTO.getId());
             } else {
                 logger.info("Evento atualizarAluno não publicado (origem: microsserviço).");
@@ -183,30 +186,36 @@ public class AlunoServiceImpl implements AlunoService {
 
     /**
      * Método responsável por excluir um aluno
-     * 
+     *
      * @param id
      * @return AlunoDTO
      */
     @Override
+    @Transactional // Adicione esta anotação
     public AlunoDTO excluirAluno(UUID id) {
         try {
             Aluno aluno = alunoRepository
-                    .findById(id)
-                    .orElseThrow(() -> new RuntimeException("Aluno não encontrado com o ID: " + id));
+                .findByIdComMatriculas(id)
+                .orElseThrow(() -> new RuntimeException("Aluno não encontrado com o ID: " + id));
             alunoRepository.delete(aluno);
             AlunoDTO alunoExcluidoDTO = conversorGenericoDTO.converterParaDTO(aluno, AlunoDTO.class);
-
             logger.info("Aluno excluido com ID: {}", alunoExcluidoDTO.getId());
 
             // Publica o evento AlunoExcluido
-            AlunoExcluidoEvent alunoExcluidoEvent = new AlunoExcluidoEvent(id); // Usamos o ID para o evento de exclusão
-            rabbitTemplate.convertAndSend(alunosExchangeName, "", alunoExcluidoEvent);
-
-            logger.info("Evento excluirAluno publicado para o aluno com ID: {}", alunoExcluidoDTO.getId());
+            if (!"Microsservico".equals(alunoExcluidoDTO.getOrigem())) {
+                alunoExcluidoDTO.setOrigem("Monolito");
+                alunoExcluidoDTO.setEventType("AlunoExcluido");
+                AlunoExcluidoEvent alunoExcluidoEvent = new AlunoExcluidoEvent(alunoExcluidoDTO);
+                rabbitTemplate.convertAndSend(alunosExchangeName, "aluno.excluido", alunoExcluidoEvent);
+                logger.info("Evento excluirAluno publicado para o aluno com ID: {}", alunoExcluidoDTO.getId());
+            } else {
+                logger.info("Evento atualizarAluno não publicado (origem: microsserviço).");
+            }
 
             return alunoExcluidoDTO;
         } catch (Exception error) {
-            throw new RuntimeException("Erro ao excluir o aluno com ID " + id + ": " + error.getMessage(), error);
+            throw new RuntimeException("Erro ao excluir aluno: " + error.getMessage(), error);
         }
+
     }
 }

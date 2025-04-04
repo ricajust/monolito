@@ -5,7 +5,11 @@ import java.time.format.DateTimeFormatter;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.amqp.core.ExchangeTypes;
 import org.springframework.amqp.core.Message;
+import org.springframework.amqp.rabbit.annotation.Exchange;
+import org.springframework.amqp.rabbit.annotation.Queue;
+import org.springframework.amqp.rabbit.annotation.QueueBinding;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -27,12 +31,18 @@ public class AlunoMicrosservicoConsumer {
     // private final DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss");
     private final DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
-    @RabbitListener(queues = "${rabbitmq.alunos.reverse.queue}")
+    @RabbitListener(
+        bindings = @QueueBinding(
+            value = @Queue(value = "${rabbitmq.alunos.criados.queue}", durable = "true"),
+            exchange = @Exchange(value = "alunos.reverse.exchange", type = ExchangeTypes.DIRECT),
+            key = "aluno.criado"
+        )
+    )
     public void receberAlunoCriado(Message message, AlunoCriadoNoMicrosservicoEvent evento) {
         String messageBody = new String(message.getBody());
         logger.info("Mensagem recebida (raw): {}", messageBody);
         logger.info("Origem do evento recebido: {}", evento.getOrigem());
-        logger.info("EventType do evento recebido: {}", evento.getEventType()); // Adicione esta linha
+        logger.info("EventType do evento recebido: {}", evento.getEventType());
         if (!"Monolito".equals(evento.getOrigem()) && "AlunoCriado".equals(evento.getEventType())) {
             logger.info("Evento AlunoCriado recebido do microsserviço: {}", evento);
             AlunoDTO alunoDTO = converterParaDTO(evento);
@@ -44,12 +54,18 @@ public class AlunoMicrosservicoConsumer {
         }
     }
 
-    @RabbitListener(queues = "${rabbitmq.alunos.reverse.queue}", messageConverter = "jackson2JsonMessageConverter")
+    @RabbitListener(
+        bindings = @QueueBinding(
+            value = @Queue(value = "${rabbitmq.alunos.atualizados.queue}", durable = "true"),
+            exchange = @Exchange(value = "alunos.reverse.exchange", type = ExchangeTypes.DIRECT),
+            key = "aluno.atualizado"
+        )
+    )
     public void receberAlunoAtualizado(Message message, AlunoAtualizadoNoMicrosservicoEvent evento) {
         String messageBody = new String(message.getBody());
         logger.info("Mensagem recebida (raw): {}", messageBody);
         logger.info("Origem do evento recebido: {}", evento.getOrigem());
-        logger.info("EventType do evento recebido: {}", evento.getEventType()); // Adicione esta linha
+        logger.info("EventType do evento recebido: {}", evento.getEventType());
         if (!"Monolito".equals(evento.getOrigem()) && "AlunoAtualizado".equals(evento.getEventType())) {
             logger.info("Evento AlunoAtualizado recebido do microsserviço: {}", evento);
             AlunoDTO alunoDTO = converterParaDTO(evento);
@@ -61,7 +77,13 @@ public class AlunoMicrosservicoConsumer {
         }
     }
 
-    @RabbitListener(queues = "${rabbitmq.alunos.reverse.queue}")
+    @RabbitListener(
+        bindings = @QueueBinding(
+            value = @Queue(value = "${rabbitmq.alunos.excluidos.queue}", durable = "true"),
+            exchange = @Exchange(value = "alunos.reverse.exchange", type = ExchangeTypes.DIRECT),
+            key = "aluno.excluido"
+        )
+    )
     public void receberAlunoExcluido(Message message, AlunoExcluidoNoMicrosservicoEvent evento) {
         String messageBody = new String(message.getBody());
         logger.info("Mensagem recebida (raw): {}", messageBody);

@@ -1,9 +1,6 @@
 package com.edugo.edugo_tcc.config;
 
-import org.springframework.amqp.core.Binding;
-import org.springframework.amqp.core.BindingBuilder;
-import org.springframework.amqp.core.FanoutExchange;
-import org.springframework.amqp.core.Queue;
+import org.springframework.amqp.core.*;
 import org.springframework.amqp.rabbit.config.SimpleRabbitListenerContainerFactory;
 import org.springframework.amqp.rabbit.connection.ConnectionFactory;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
@@ -25,29 +22,19 @@ public class RabbitMQConfig {
 
     private static final Logger logger = LoggerFactory.getLogger(RabbitMQConfig.class);
 
+    // Exchange reverso (Direct)
+    @Bean
+    public DirectExchange alunosReverseExchange() {
+        return new DirectExchange("alunos.reverse.exchange", true, false);
+    }
+
+    // Exchange para comunicação do monolito -> microsserviço (Fanout)
     @Bean
     public FanoutExchange alunosExchange() {
         return new FanoutExchange("alunos.exchange", true, false);
     }
 
-    @Bean
-    public FanoutExchange alunosReverseExchange() {
-        return new FanoutExchange("alunos.reverse.exchange", true, true);
-    }
-
-    @Value("${rabbitmq.alunos.reverse.queue}")
-    private String alunosReverseQueueName;
-
-    @Bean
-    public Queue alunosReverseQueue() {
-        return new Queue(alunosReverseQueueName, true);
-    }
-
-    @Bean
-    public Binding alunosReverseBinding(Queue alunosReverseQueue, FanoutExchange alunosReverseExchange) {
-        return BindingBuilder.bind(alunosReverseQueue).to(alunosReverseExchange());
-    }
-
+    // Configuração do message converter
     @Bean
     public Jackson2JsonMessageConverter jackson2JsonMessageConverter() {
         ObjectMapper mapper = new ObjectMapper();
@@ -65,18 +52,11 @@ public class RabbitMQConfig {
     }
 
     @Bean
-    public MessageConverter messageConverter() {
-        ObjectMapper mapper = new ObjectMapper();
-        mapper.setPropertyNamingStrategy(PropertyNamingStrategies.LOWER_CAMEL_CASE);
-        mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-        return new Jackson2JsonMessageConverter(mapper);
-    }
-
-    @Bean
-    public SimpleRabbitListenerContainerFactory alunoAtualizadoContainerFactory(ConnectionFactory connectionFactory, RabbitProperties rabbitProperties) {
+    public SimpleRabbitListenerContainerFactory rabbitListenerContainerFactory(
+            ConnectionFactory connectionFactory) {
         SimpleRabbitListenerContainerFactory factory = new SimpleRabbitListenerContainerFactory();
         factory.setConnectionFactory(connectionFactory);
-        factory.setMessageConverter(jackson2JsonMessageConverter()); // Usar o bean principal aqui
+        factory.setMessageConverter(jackson2JsonMessageConverter());
         return factory;
     }
 }
