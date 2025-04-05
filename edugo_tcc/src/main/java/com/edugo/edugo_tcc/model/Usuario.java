@@ -16,7 +16,8 @@ import lombok.NoArgsConstructor;
 public abstract class Usuario {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    // @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "id", columnDefinition = "BINARY(16)")
     private UUID id;
 
     @NotBlank
@@ -25,7 +26,8 @@ public abstract class Usuario {
     private String nome;
 
     @NotBlank
-    @Column(name = "cpf", unique = true)
+    @Column(name = "cpf", unique = true, nullable = false)
+    @Pattern(regexp = "\\d{11}", message = "CPF deve conter 11 números")
     private String cpf;
 
     @Past

@@ -10,6 +10,8 @@ import com.edugo.edugo_tcc.service.AlunoService;
 import com.edugo.edugo_tcc.util.ConversorGenericoDTO;
 import com.edugo.edugo_tcc.util.ConversorGenericoEntidade;
 
+import jakarta.transaction.Transactional;
+
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -35,16 +37,15 @@ public class AlunoServiceImpl implements AlunoService {
 
     @Autowired
     public AlunoServiceImpl(
-        AlunoRepository alunoRepository, 
-        ConversorGenericoDTO conversorGenericoDTO, 
-        ConversorGenericoEntidade conversorGenericoEntidade,
-        RabbitTemplate rabbitTemplate) 
-        {
-            this.alunoRepository = alunoRepository;
-            this.conversorGenericoDTO = conversorGenericoDTO;
-            this.conversorGenericoEntidade = conversorGenericoEntidade;
-            this.rabbitTemplate = rabbitTemplate;
-        }
+            AlunoRepository alunoRepository,
+            ConversorGenericoDTO conversorGenericoDTO,
+            ConversorGenericoEntidade conversorGenericoEntidade,
+            RabbitTemplate rabbitTemplate) {
+        this.alunoRepository = alunoRepository;
+        this.conversorGenericoDTO = conversorGenericoDTO;
+        this.conversorGenericoEntidade = conversorGenericoEntidade;
+        this.rabbitTemplate = rabbitTemplate;
+    }
 
     /**
      * Método responsável por criar um aluno
@@ -58,21 +59,41 @@ public class AlunoServiceImpl implements AlunoService {
             // 1. Conversão e limpeza do CPF
             Aluno aluno = conversorGenericoEntidade.converterParaEntidade(alunoDTO, Aluno.class);
             aluno.setCpf(aluno.getCpf().replaceAll("[^0-9]", "")); // Remove não numéricos
-            
-            // 2. Persistência
+
+            // Gerenciar o ID com base na origem
+            if ("Microsservico".equals(alunoDTO.getOrigem())) {
+                // O ID já deve estar definido pelo conversor
+                logger.info("ID do aluno (microsserviço): {}", aluno.getId());
+            } else {
+                // Para criações locais no monolito, gerar um novo UUID
+                aluno.setId(UUID.randomUUID());
+                logger.info("ID do aluno (monolito - antes de salvar): {}", aluno.getId());
+            }
+
+            // 2. Verifica se já existe um aluno com o mesmo CPF
+            if (alunoRepository.findByCpf(aluno.getCpf()).isPresent()) {
+                throw new RuntimeException("Já existe um aluno cadastrado com este CPF: " + aluno.getCpf());
+            }
+
+            logger.info("Entidade Aluno após conversão: {}", aluno);
+
+            // 3. Persistência
             Aluno alunoSalvo = alunoRepository.save(aluno);
+            logger.info("Entidade Aluno salva: {}", alunoSalvo);
             AlunoDTO alunoCriadoDTO = conversorGenericoDTO.converterParaDTO(alunoSalvo, AlunoDTO.class);
             logger.info("Aluno criado com ID: {}", alunoCriadoDTO.getId());
 
-            // 3. Publicação do evento (ESTRUTURA CHAVE)
-            Map<String, Object> mensagem = new HashMap<>();
-            mensagem.put("aluno", alunoCriadoDTO); // 👈 Envia o DTO diretamente, não o Event
-            mensagem.put("eventType", "AlunoCriado"); // 👈 Adiciona tipo para facilitar deserialização
-            
-            rabbitTemplate.convertAndSend("alunos.exchange", "", mensagem);
-            logger.info("Evento publicado para o aluno ID: {}", alunoCriadoDTO.getId());
-            logger.info("Data de nascimento do aluno ID: {}", alunoCriadoDTO.getDataNascimento());
-
+            // 4. Publicação do evento
+            if (!"Microsservico".equals(alunoDTO.getOrigem())) {
+                alunoCriadoDTO.setOrigem("Monolito");
+                alunoCriadoDTO.setEventType("AlunoCriado");
+                AlunoCriadoEvent alunoCriadoEvent = new AlunoCriadoEvent(alunoCriadoDTO);
+                rabbitTemplate.convertAndSend("alunos.exchange", "aluno.criado", alunoCriadoEvent);
+                logger.info("Evento publicado para o aluno ID: {}", alunoCriadoDTO.getId());
+                logger.info("Data de nascimento do aluno ID: {}", alunoCriadoDTO.getDataNascimento());
+            } else {
+                logger.info("Evento de criação não publicado (origem: monolito).");
+            }
             return alunoCriadoDTO;
         } catch(Exception error) {
             logger.error("Falha ao criar aluno", error);
@@ -93,7 +114,7 @@ public class AlunoServiceImpl implements AlunoService {
                     .findById(id)
                     .orElseThrow(() -> new RuntimeException("Aluno não encontrado com o ID: " + id));
             return conversorGenericoDTO.converterParaDTO(aluno, AlunoDTO.class);
-        } catch(Exception error) {
+        } catch (Exception error) {
             throw new RuntimeException("Erro ao buscar aluno por ID: " + error.getMessage(), error);
         }
     }
@@ -111,14 +132,14 @@ public class AlunoServiceImpl implements AlunoService {
                     .stream()
                     .map(aluno -> conversorGenericoDTO.converterParaDTO(aluno, AlunoDTO.class))
                     .collect(Collectors.toList());
-        } catch(Exception error) {
+        } catch (Exception error) {
             throw new RuntimeException("Erro ao buscar todos os alunos: " + error.getMessage(), error);
         }
     }
 
     /**
      * Método responsável por atualizar um aluno
-     * 
+     *
      * @param id
      * @param alunoDTO
      * @return AlunoDTO
@@ -131,8 +152,8 @@ public class AlunoServiceImpl implements AlunoService {
                 .orElseThrow(() -> new RuntimeException("Aluno não encontrado com o ID: " + id));
             Aluno alunoAtualizado = conversorGenericoEntidade.converterParaEntidade(alunoDTO, Aluno.class);
             alunoAtualizado.setId(alunoExistente.getId()); // Garante que o ID seja mantido
-            alunoAtualizado.setCpf(alunoExistente.getCpf().replaceAll("[^0-9]", ""));//Remove os caracteres de "-" e "."
-            
+            alunoAtualizado.setCpf(alunoExistente.getCpf()); // Mantém o CPF existente
+
             // Atualizar a senha apenas se um novo valor for fornecido
             if(alunoDTO.getSenha() != null && !alunoDTO.getSenha().isEmpty()) {
                 alunoAtualizado.setSenha(alunoDTO.getSenha());
@@ -145,45 +166,63 @@ public class AlunoServiceImpl implements AlunoService {
 
             logger.info("Aluno alterado com ID: {}", alunoAtualizadoDTO.getId());
 
-            // Publica o evento AlunoAtualizado
-            AlunoAtualizadoEvent alunoAtualizadoEvent = new AlunoAtualizadoEvent(alunoAtualizadoDTO);
-            rabbitTemplate.convertAndSend(alunosExchangeName, "", alunoAtualizadoEvent);
-
-            logger.info("Evento atualizarAluno publicado para o aluno com ID: {}", alunoAtualizadoDTO.getId());
+            // Publica o evento AlunoAtualizado SOMENTE se a origem não for o microsserviço
+            if (!"Microsservico".equals(alunoDTO.getOrigem())) {
+                alunoAtualizadoDTO.setOrigem("Monolito");
+                alunoAtualizadoDTO.setEventType("AlunoAtualizado");
+                AlunoAtualizadoEvent alunoAtualizadoEvent = new AlunoAtualizadoEvent(alunoAtualizadoDTO);
+                rabbitTemplate.convertAndSend(alunosExchangeName, "aluno.atualizado", alunoAtualizadoEvent);
+                logger.info("Evento atualizarAluno publicado para o aluno com ID: {}", alunoAtualizadoDTO.getId());
+            } else {
+                logger.info("Evento atualizarAluno não publicado (origem: microsserviço).");
+            }
 
             return alunoAtualizadoDTO;
         } catch(Exception error) {
             throw new RuntimeException("Erro ao atualizar aluno: " + error.getMessage(), error);
-
         }
     }
 
+
     /**
      * Método responsável por excluir um aluno
-     * 
+     *
      * @param id
+     * @param origem (Adicione este parâmetro para receber a origem do evento)
      * @return AlunoDTO
      */
     @Override
-    public AlunoDTO excluirAluno(UUID id) {
+    @Transactional
+    public AlunoDTO excluirAluno(UUID id, String origem) {
         try {
             Aluno aluno = alunoRepository
-                    .findById(id)
-                    .orElseThrow(() -> new RuntimeException("Aluno não encontrado com o ID: " + id));
+                .findByIdComMatriculas(id)
+                .orElseThrow(() -> new RuntimeException("Aluno não encontrado com o ID: " + id));
             alunoRepository.delete(aluno);
             AlunoDTO alunoExcluidoDTO = conversorGenericoDTO.converterParaDTO(aluno, AlunoDTO.class);
-            
             logger.info("Aluno excluido com ID: {}", alunoExcluidoDTO.getId());
 
-            // Publica o evento AlunoExcluido
-            AlunoExcluidoEvent alunoExcluidoEvent = new AlunoExcluidoEvent(id); // Usamos o ID para o evento de exclusão
-            rabbitTemplate.convertAndSend(alunosExchangeName, "", alunoExcluidoEvent);
-
-            logger.info("Evento excluirAluno publicado para o aluno com ID: {}", alunoExcluidoDTO.getId());
+            // Publica o evento AlunoExcluido SOMENTE se a origem não for o microsserviço
+            if (!"Microsservico".equals(origem)) {
+                alunoExcluidoDTO.setOrigem("Monolito");
+                alunoExcluidoDTO.setEventType("AlunoExcluido");
+                AlunoExcluidoEvent alunoExcluidoEvent = new AlunoExcluidoEvent(alunoExcluidoDTO);
+                rabbitTemplate.convertAndSend(alunosExchangeName, "aluno.excluido", alunoExcluidoEvent);
+                logger.info("Evento excluirAluno publicado para o aluno com ID: {}", alunoExcluidoDTO.getId());
+            } else {
+                logger.info("Evento excluirAluno não publicado (origem: microsserviço).");
+            }
 
             return alunoExcluidoDTO;
-        } catch(Exception error) {
-            throw new RuntimeException("Erro ao excluir o aluno com ID " + id + ": " + error.getMessage(), error);
+        } catch (Exception error) {
+            throw new RuntimeException("Erro ao excluir aluno: " + error.getMessage(), error);
         }
+
+    }
+
+    @Override
+    @Transactional // Modifique a assinatura do método na interface também
+    public AlunoDTO excluirAluno(UUID id) {
+        return excluirAluno(id, null); // Chamada para a nova assinatura com origem nula para exclusões locais
     }
 }
