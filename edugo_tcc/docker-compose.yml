@@ -1,36 +1,66 @@
 version: '3.8'
 
 services:
-  db:
-    image: edugo-db-with-data # Use sua nova imagem aqui
-    container_name: edugo_db
+  monolito-app:
+    image: monolito-app
+    container_name: monolito-app
+    ports:
+      - "8080:8080"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://monolito-db:5432/edugo
+      SPRING_DATASOURCE_USERNAME: ricajust
+      SPRING_DATASOURCE_PASSWORD: '123'
+      SPRING_RABBITMQ_HOST: rabbitmq
+      SPRING_RABBITMQ_PORT: 5672
+      SPRING_RABBITMQ_USERNAME: guest
+      SPRING_RABBITMQ_PASSWORD: guest
+    depends_on:
+      monolito-db:
+        condition: service_healthy
+      rabbitmq:
+        condition: service_healthy
+    networks:
+      - edugo_tcc_net
+
+  monolito-db:
+    image: monolito-db
+    container_name: monolito-db
+    ports:
+      - "5433:5432"
     environment:
       POSTGRES_USER: ricajust
       POSTGRES_PASSWORD: '123'
       POSTGRES_DB: edugo
-    ports:
-      - "5433:5432"
     volumes:
-      - edugo_db_data:/var/lib/postgresql/data # Você ainda pode usar o volume para futuras persistências
+      - monolito_db_data:/var/lib/postgresql/data
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U ricajust -d edugo"]
       interval: 5s
       timeout: 5s
       retries: 5
+    networks:
+      - edugo_tcc_net
 
-  app:
-    # Sua configuração da aplicação permanece a mesma
-    image: edugo-app-java21
-    container_name: edugo_app
+  rabbitmq:
+    image: rabbitmq:3-management
+    container_name: rabbitmq
     ports:
-      - "8080:8080"
+      - "5672:5672"
+      - "15672:15672"
     environment:
-      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/edugo
-      SPRING_DATASOURCE_USERNAME: ricajust
-      SPRING_DATASOURCE_PASSWORD: 123
-    depends_on:
-      db:
-        condition: service_healthy
+      - RABBITMQ_DEFAULT_USER=guest
+      - RABBITMQ_DEFAULT_PASS=guest
+    healthcheck:
+      test: ["CMD", "rabbitmq-diagnostics", "status"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+    networks:
+      - edugo_tcc_net
 
 volumes:
-  edugo_db_data:
+  monolito_db_data:
+
+networks:
+  edugo_tcc_net:
+    driver: bridge
