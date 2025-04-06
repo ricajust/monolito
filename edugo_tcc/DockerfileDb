@@ -1,0 +1,9 @@
+FROM postgres:latest
+# Variáveis de ambiente do PostgreSQL
+ENV POSTGRES_USER=ricajust
+ENV POSTGRES_PASSWORD='123'
+ENV POSTGRES_DB=edugo
+# Porta padrão do PostgreSQL
+EXPOSE 5432
+# Copie o arquivo de dump para o diretório de inicialização do PostgreSQL
+COPY dump_with_data.sql /docker-entrypoint-initdb.d/
