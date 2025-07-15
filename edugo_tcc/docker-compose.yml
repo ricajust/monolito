@@ -12,8 +12,8 @@ services:
       SPRING_DATASOURCE_PASSWORD: '123'
       SPRING_RABBITMQ_HOST: rabbitmq
       SPRING_RABBITMQ_PORT: 5672
-      SPRING_RABBITMQ_USERNAME: guest
-      SPRING_RABBITMQ_PASSWORD: guest
+      SPRING_RABBITMQ_USERNAME: microsservico
+      SPRING_RABBITMQ_PASSWORD: microsservico123
     depends_on:
       monolito-db:
         condition: service_healthy
@@ -48,8 +48,8 @@ services:
       - "5672:5672"
       - "15672:15672"
     environment:
-      - RABBITMQ_DEFAULT_USER=guest
-      - RABBITMQ_DEFAULT_PASS=guest
+      - RABBITMQ_DEFAULT_USER=microsservico
+      - RABBITMQ_DEFAULT_PASS=microsservico123
     healthcheck:
       test: ["CMD", "rabbitmq-diagnostics", "status"]
       interval: 10s
